@@ -11,7 +11,7 @@ WORKSPACE_DIR = PROJECT_DIR.parents[1]
 @dataclass(frozen=True)
 class PipelineConfig:
     # Change only this value when moving from the validated B0 prototype to B4.
-    active_profile: str = "prototype"
+    active_profile: str = "production"
     seed: int = 42
     sampling_frequency: int = 500
     lead_indices: tuple[int, int, int] = (0, 1, 10)

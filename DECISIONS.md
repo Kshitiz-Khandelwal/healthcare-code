@@ -46,3 +46,27 @@ This document records the mathematical, clinical, and engineering rationale behi
 *   **Rationale**:
     *   **Process Spawning Overhead**: Spawning multiple processes in parallel incurs overhead (allocating memory, copying data, initializing threads). For small datasets, this setup cost takes longer than the model training itself.
     *   **Thread Contention**: When the outer cross-validation loop and the inner estimator both try to use all CPU cores (`n_jobs=-1`), the operating system spends more time switching between competing threads than doing real computation. Running sequentially resolves this bottleneck.
+
+---
+
+## 📌 5. Centralized Configuration & Versioned Artifacts
+*   **Context**: Notebooks originally duplicated constants (`MAX_RECORDS`, `TARGET_SIZE`, `MODEL_NAME`, paths), which risked mismatched scaler/model pairs after switching from B0 to B4.
+*   **Decision**: Consolidate all pipeline constants in `config.py` and suffix every serialized artifact with `{model_name}`.
+*   **Rationale**: The B4 backbone produces **1792**-dimensional embeddings (not 1280). Versioned filenames and metadata feature-list hashes prevent silently loading the wrong scaler or PCA during inference.
+
+---
+
+## 📌 6. Incremental Manifest Checkpointing (Phase 2)
+*   **Context**: Generating 1000 scalograms at 380×380 on CPU can take hours and may be interrupted.
+*   **Decision**: Notebook 03 writes manifest rows and handcrafted feature rows every 25 records.
+*   **Rationale**: A crash mid-run can resume from cached PNGs instead of restarting from record zero.
+
+---
+
+## Changelog
+
+| Date (UTC) | Phase | Summary | Key metrics | Commit |
+|---|---|---|---|---|
+| 2026-06-14 | 0–1 | Centralized config, hardened notebooks, validated B0 smoke test | Acc 88.33%, macro-F1 80.00% | `76d159919b99152566c046d0577afa07a8cd588e` |
+| 2026-06-14 | 3–4 | Fused predictor, dashboard integration, regression tests | 2/2 tests pass | pending local commit |
+| 2026-06-14 | 2 | EfficientNet-B4 production run on CPU (1000 records, 380×380) | Acc 92.00%, macro-F1 89.52% | pending local commit |

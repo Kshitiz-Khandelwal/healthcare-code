@@ -44,7 +44,20 @@ The pipeline operates as a sequence of decoupled modules:
   [ LightGBM Classifier Benchmarking ]
           │
           ├──> Evaluates Acc, Macro-F1, Per-class F1, Confusion Matrix
-          └──> Exports: best_hybrid_model.pkl & best_hybrid_feature_list.pkl
+          └──> Exports versioned artifacts:
+               best_hybrid_model_{model_name}.pkl
+               best_hybrid_feature_list_{model_name}.pkl
+               scaler_{model_name}.pkl
+               pca_{model_name}.pkl
+               model_metadata_{model_name}.json
+          │
+          v
+  [ Production Inference ] (predict.py / dashboard.py )
+          │
+          ├──> src/hybrid_predictor.py loads versioned artifacts + metadata hash check
+          ├──> On-the-fly scalogram + EfficientNet embedding + handcrafted features
+          ├──> Schema validation (NaN/Inf + column order)
+          └──> predictions.csv + runtime scalogram cache for dashboard review
 ```
 
 ---
@@ -191,4 +204,20 @@ Columns:
 *   `record_id` (str): Merged join key.
 *   `label` (int): Target class label.
 *   **Handcrafted Columns** (17): `mean`, `std`, `max`, `min`, `energy`, `zero_crossings`, `skewness`, `kurtosis`, `peak_count`, `heart_rate`, `rr_mean`, `hrv`, `sdnn`, `rmssd`, `pnn50`, `rr_range`, `rr_cv`, `qrs_width_proxy_mean`, `qrs_width_proxy_std`.
-*   **Deep Columns** (1280): `eff_0000` through `eff_1279`.
+*   **Deep Columns** (1280 for B0, 1792 for B4): `eff_0000` through `eff_{N-1}`.
+
+### 4. Versioned Model Artifacts (`outputs/deep_features/models/`)
+
+All trained artifacts include the backbone name suffix to prevent cross-version mismatches:
+
+| File pattern | Purpose |
+|---|---|
+| `best_hybrid_model_{model_name}.pkl` | Fitted LightGBM classifier |
+| `best_hybrid_feature_list_{model_name}.pkl` | Ordered feature column list |
+| `scaler_{model_name}.pkl` | Fitted `StandardScaler` |
+| `pca_{model_name}.pkl` | Fitted PCA transformer |
+| `model_metadata_{model_name}.json` | Timestamp, dataset size, feature-list SHA256 hash, metrics |
+
+Checkpointing for long B4 scalogram runs is handled in notebook 03 via incremental manifest writes every `CONFIG.checkpoint_every` records (default: 25).
+
+Central configuration lives in `config.py` (`SEED=42`, paths, prototype vs production profiles).

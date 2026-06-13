@@ -55,11 +55,24 @@ def run_predictions(
         result["explanation"] = explain_result(result)
         result["probabilities"] = json.dumps(result.get("probabilities", {}), sort_keys=True)
         rows.append(result)
-        print(
-            f"[{index}/{len(records)}] {record.record_id}: "
-            f"{result['status']} {result.get('prediction', '')} "
-            f"{result.get('confidence', 0)}%"
-        )
+        
+        # Include timings in logs
+        if result["status"] == "ok":
+            timings_str = (
+                f"(Prep: {result.get('preprocessing_scalogram_seconds', 0.0):.3f}s, "
+                f"Embed: {result.get('embedding_seconds', 0.0):.3f}s, "
+                f"Total: {result.get('total_seconds', 0.0):.3f}s)"
+            )
+            print(
+                f"[{index}/{len(records)}] {record.record_id}: "
+                f"{result['status']} {result.get('prediction', '')} "
+                f"{result.get('confidence', 0)}% {timings_str}"
+            )
+        else:
+            print(
+                f"[{index}/{len(records)}] {record.record_id}: "
+                f"{result['status']} - Error: {result.get('error', '')}"
+            )
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     frame = pd.DataFrame(rows)

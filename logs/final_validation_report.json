@@ -1,0 +1,221 @@
+{
+  "generated_at_utc": "2026-06-13T22:37:35.950635+00:00",
+  "environment": {
+    "python": "3.14.6",
+    "cuda_available": false,
+    "active_profile": "production",
+    "active_model_name": "efficientnet_b4"
+  },
+  "phase1_acceptance": {
+    "phase": 1,
+    "model_name": "efficientnet_b0",
+    "passed": true,
+    "checks": {
+      "manifest_exists": true,
+      "manifest_rows_300": true,
+      "all_manifest_images_exist": true,
+      "hybrid_exists": true,
+      "hybrid_rows_300": true,
+      "deep_feature_count_1280": true,
+      "comparison_results_exist": true
+    },
+    "observed": {
+      "manifest_path": "C:\\Users\\Admin\\Desktop\\Kshitiz\\healthcare project\\healthcare project\\outputs\\deep_features\\manifests\\scalogram_manifest_3ch_224.csv",
+      "manifest_columns": [
+        "record_id",
+        "mat_path",
+        "hea_path",
+        "image_path",
+        "label",
+        "label_name",
+        "age",
+        "sex",
+        "dx_codes",
+        "sampling_frequency",
+        "n_leads",
+        "n_samples",
+        "lead_indices",
+        "lead_names",
+        "image_height",
+        "image_width"
+      ],
+      "manifest_rows": 300,
+      "missing_images": 0,
+      "hybrid_rows": 300,
+      "hybrid_columns": 1302,
+      "deep_feature_columns": 1280,
+      "results_rows": [
+        {
+          "experiment": "efficientnet_only",
+          "feature_count": "1280",
+          "cv_accuracy_mean": "0.9041666666666667",
+          "cv_macro_f1_mean": "0.8159545298024206",
+          "cv_weighted_f1_mean": "0.9017873048763642",
+          "test_accuracy": "0.8833333333333333",
+          "test_macro_f1": "0.8000000000000002",
+          "test_weighted_f1": "0.8844444444444446",
+          "test_auc_ovr_weighted": "0.949647266313933",
+          "runtime_seconds": "0.3893386000127066"
+        },
+        {
+          "experiment": "hybrid_handcrafted_efficientnet",
+          "feature_count": "1297",
+          "cv_accuracy_mean": "0.8958333333333334",
+          "cv_macro_f1_mean": "0.78985079449359",
+          "cv_weighted_f1_mean": "0.8911966315141574",
+          "test_accuracy": "0.8833333333333333",
+          "test_macro_f1": "0.7833890746934227",
+          "test_weighted_f1": "0.8787179487179486",
+          "test_auc_ovr_weighted": "0.9485619318952653",
+          "runtime_seconds": "0.402642700006254"
+        },
+        {
+          "experiment": "handcrafted_only",
+          "feature_count": "17",
+          "cv_accuracy_mean": "0.8958333333333334",
+          "cv_macro_f1_mean": "0.822057163705804",
+          "cv_weighted_f1_mean": "0.8921775670676269",
+          "test_accuracy": "0.85",
+          "test_macro_f1": "0.773014823907091",
+          "test_weighted_f1": "0.8549649073112391",
+          "test_auc_ovr_weighted": "0.9420906254239586",
+          "runtime_seconds": "0.24946429999545217"
+        }
+      ]
+    }
+  },
+  "phase2_acceptance": {
+    "phase": 2,
+    "model_name": "efficientnet_b4",
+    "passed": true,
+    "checks": {
+      "manifest_exists": true,
+      "manifest_rows_1000": true,
+      "all_manifest_images_exist": true,
+      "hybrid_exists": true,
+      "hybrid_rows_1000": true,
+      "deep_feature_count_1792": true,
+      "comparison_results_exist": true,
+      "artifact_classifier": true,
+      "artifact_feature_list": true,
+      "artifact_scaler": true,
+      "artifact_pca": true,
+      "artifact_metadata": true
+    },
+    "observed": {
+      "manifest_path": "C:\\Users\\Admin\\Desktop\\Kshitiz\\healthcare project\\healthcare project\\outputs\\deep_features\\manifests\\scalogram_manifest_3ch_380.csv",
+      "manifest_rows": 1000,
+      "missing_images": 0,
+      "hybrid_rows": 1000,
+      "hybrid_columns": 1814,
+      "deep_feature_columns": 1792,
+      "results_rows": [
+        {
+          "experiment": "efficientnet_only",
+          "feature_count": "1792",
+          "cv_accuracy_mean": "0.8837543296443355",
+          "cv_macro_f1_mean": "0.8305343305253065",
+          "cv_weighted_f1_mean": "0.8817884622634294",
+          "test_accuracy": "0.92",
+          "test_macro_f1": "0.8951528659297726",
+          "test_weighted_f1": "0.9181389086877325",
+          "test_auc_ovr_weighted": "0.9706031117091972",
+          "runtime_seconds": "1.7885084000008646"
+        },
+        {
+          "experiment": "hybrid_handcrafted_efficientnet",
+          "feature_count": "1809",
+          "cv_accuracy_mean": "0.8825011968122554",
+          "cv_macro_f1_mean": "0.8254584366312954",
+          "cv_weighted_f1_mean": "0.8799911702755819",
+          "test_accuracy": "0.92",
+          "test_macro_f1": "0.8933836537327515",
+          "test_weighted_f1": "0.9164370798443212",
+          "test_auc_ovr_weighted": "0.9654884120813396",
+          "runtime_seconds": "1.7580836999986786"
+        },
+        {
+          "experiment": "handcrafted_only",
+          "feature_count": "17",
+          "cv_accuracy_mean": "0.9287779373527453",
+          "cv_macro_f1_mean": "0.9037017349618316",
+          "cv_weighted_f1_mean": "0.928176112646235",
+          "test_accuracy": "0.91",
+          "test_macro_f1": "0.8792845896346869",
+          "test_weighted_f1": "0.9067024967252807",
+          "test_auc_ovr_weighted": "0.9597347820308346",
+          "runtime_seconds": "0.8053436999907717"
+        }
+      ]
+    }
+  },
+  "predictor_tests": {
+    "predictor_tests_passed": 3
+  },
+  "prototype_metrics": {
+    "cv_accuracy_mean": 0.9041666666666667,
+    "cv_macro_f1_mean": 0.8159545298024206,
+    "cv_weighted_f1_mean": 0.9017873048763642,
+    "experiment": "efficientnet_only",
+    "feature_count": 1280,
+    "per_class_recall": {
+      "Arrhythmia": 0.9130434782608695,
+      "Normal": 0.625,
+      "Other / Unknown": 1.0
+    },
+    "runtime_seconds": 0.3893386000127066,
+    "test_accuracy": 0.8833333333333333,
+    "test_auc_ovr_weighted": 0.949647266313933,
+    "test_macro_f1": 0.8000000000000002,
+    "test_weighted_f1": 0.8844444444444446
+  },
+  "production_metrics": {
+    "cv_accuracy_mean": 0.8837543296443355,
+    "cv_macro_f1_mean": 0.8305343305253065,
+    "cv_weighted_f1_mean": 0.8817884622634294,
+    "experiment": "efficientnet_only",
+    "feature_count": 1792,
+    "per_class_recall": {
+      "Arrhythmia": 0.9558823529411765,
+      "Normal": 0.7428571428571429,
+      "Other / Unknown": 0.9655172413793104
+    },
+    "runtime_seconds": 1.7885084000008646,
+    "test_accuracy": 0.92,
+    "test_auc_ovr_weighted": 0.9706031117091972,
+    "test_macro_f1": 0.8951528659297726,
+    "test_weighted_f1": 0.9181389086877325
+  },
+  "b4_vs_b0_comparison": {
+    "accuracy_delta": 0.036666666666666736,
+    "macro_f1_delta": 0.09515286592977246,
+    "per_class_recall_delta": {
+      "Arrhythmia": 0.042838874680307004,
+      "Normal": 0.11785714285714288,
+      "Other / Unknown": -0.03448275862068961
+    },
+    "passes_master_prompt_gate": true,
+    "minority_recall_regressions": [
+      "Other / Unknown"
+    ],
+    "human_review_recommended": true
+  },
+  "production_artifacts": {
+    "classifier": true,
+    "feature_list": true,
+    "scaler": true,
+    "pca": true,
+    "metadata": true
+  },
+  "predictions_csv_exists": true,
+  "blockers": [
+    "B4-vs-B0 comparison flagged recall regressions on: Other / Unknown"
+  ],
+  "sign_off": {
+    "phase1_passed": true,
+    "phase2_passed": true,
+    "integration_tests_passed": true,
+    "b4_improves_macro_f1": true,
+    "ready_for_dashboard_demo": true
+  }
+}

@@ -74,4 +74,56 @@ To capture transient changes in both time and frequency, the preprocessed ECG si
 1.  **Continuous Wavelet Transform (CWT)**: Decomposes the signal using the complex Morlet wavelet ($\psi(t) = e^{-t^2/2} \cos(5t)$). We evaluate scale coefficients across a $0.5 - 40\text{ Hz}$ frequency range.
 2.  **3-Channel Stacking**: Leads `I`, `II`, and `V5` represent orthogonal electrical axes. The scalogram for Lead `I` is mapped to the Red channel, Lead `II` to Green, and Lead `V5` to Blue.
 3.  **Log Power Scaling**: Applies a logarithmic compression ($P = \log(1 + |C|^2)$) and min-max normalization to fit within standard $[0, 255]$ pixel values.
-4.  **Deep Feature Extraction**: The stacked RGB scalogram is resized to $224 \times 224$ (or $380 \times 380$ for B4) and passed through a pretrained CNN. Extracting activations from the final average pooling layer yields a dense 1280-dimension embedding vector that represents the visual structures of the ECG.
+4.  **Deep Feature Extraction**: The stacked RGB scalogram is resized to $224 \times 224$ (EfficientNet-B0 prototype) or $380 \times 380$ (EfficientNet-B4 production) and passed through a pretrained CNN. Extracting activations from the final average pooling layer yields a dense embedding vector (**1280** dimensions for B0, **1792** for B4).
+
+---
+
+## ✅ Validation Targets & Model Card
+
+### Prototype Run (EfficientNet-B0, 300 records, seed=42)
+
+| Metric | Target | Observed (2026-06-14) |
+|---|---|---|
+| Test accuracy | ≥ 80% | **88.33%** |
+| Test macro-F1 | ≥ 80% | **80.00%** |
+| Per-class recall — Arrhythmia | — | 91.3% |
+| Per-class recall — Normal | — | 62.5% |
+| Per-class recall — Other / Unknown | — | 100.0% |
+
+**Best experiment on held-out test split:** `efficientnet_only` (deep features alone outperformed full hybrid fusion on this 300-record sample).
+
+### Model Card — `efficientnet_b0` (active prototype)
+
+| Field | Value |
+|---|---|
+| Intended use | Research / clinical decision-support prototype (not a standalone diagnostic device) |
+| Training data size | 300 stratified ECG records |
+| Input representation | 3-channel CWT scalogram (224×224) + 17 handcrafted features |
+| Classifier | LightGBM on scaled + PCA-reduced features |
+| Known limitations | Small sample size, class imbalance, CPU-only inference latency, Normal-class recall below Arrhythmia |
+| Artifacts | `outputs/deep_features/models/best_hybrid_model_efficientnet_b0.pkl` (+ scaler, PCA, feature list, metadata JSON) |
+
+Production EfficientNet-B4 artifacts are trained and active (`config.py` profile: `production`).
+
+### Production Run (EfficientNet-B4, 1000 records, seed=42)
+
+| Metric | Target | Observed (2026-06-14) |
+|---|---|---|
+| Test accuracy | ≥ 80% | **92.00%** |
+| Test macro-F1 | ≥ 80% | **89.52%** |
+| Per-class recall — Arrhythmia | — | 95.6% |
+| Per-class recall — Normal | — | 74.3% |
+| Per-class recall — Other / Unknown | — | 96.6% |
+
+**Best experiment on held-out test split:** `efficientnet_only` (1792-dim B4 embeddings).
+
+### Model Card — `efficientnet_b4` (active production)
+
+| Field | Value |
+|---|---|
+| Intended use | Research / clinical decision-support prototype (not a standalone diagnostic device) |
+| Training data size | 1000 stratified ECG records |
+| Input representation | 3-channel CWT scalogram (380×380) + 17 handcrafted features |
+| Classifier | LightGBM on scaled + PCA-reduced features |
+| Known limitations | Class imbalance persists; CPU inference is slower than GPU |
+| Artifacts | `outputs/deep_features/models/best_hybrid_model_efficientnet_b4.pkl` (+ scaler, PCA, feature list, metadata JSON) |

@@ -47,6 +47,13 @@ def map_dx_to_label(dx_codes: Iterable[str]) -> int:
     return 2
 
 
+def _safe_int(value: str, default: int = 0) -> int:
+    try:
+        return int(float(value))
+    except (TypeError, ValueError):
+        return default
+
+
 def parse_hea_file(hea_path: str | Path) -> dict:
     hea_path = Path(hea_path)
     lines = hea_path.read_text(encoding="utf-8", errors="ignore").splitlines()
@@ -55,9 +62,9 @@ def parse_hea_file(hea_path: str | Path) -> dict:
 
     header_parts = lines[0].split()
     record_id = header_parts[0]
-    n_leads = int(header_parts[1]) if len(header_parts) > 1 else 12
-    sampling_frequency = int(float(header_parts[2])) if len(header_parts) > 2 else 500
-    n_samples = int(header_parts[3]) if len(header_parts) > 3 else 0
+    n_leads = _safe_int(header_parts[1], 12) if len(header_parts) > 1 else 12
+    sampling_frequency = _safe_int(header_parts[2], 500) if len(header_parts) > 2 else 500
+    n_samples = _safe_int(header_parts[3], 0) if len(header_parts) > 3 else 0
 
     age = -1
     sex = -1
@@ -95,15 +102,29 @@ def parse_hea_file(hea_path: str | Path) -> dict:
 def discover_records(dataset_root: str | Path, limit: int | None = None) -> list[ECGRecord]:
     dataset_root = Path(dataset_root)
     mat_paths = sorted(dataset_root.rglob("*.mat"))
-    if limit is not None:
-        mat_paths = mat_paths[:limit]
 
     records: list[ECGRecord] = []
     for mat_path in mat_paths:
+        if limit is not None and len(records) >= limit:
+            break
+
         hea_path = mat_path.with_suffix(".hea")
         if not hea_path.exists():
             continue
-        meta = parse_hea_file(hea_path)
+        try:
+            meta = parse_hea_file(hea_path)
+        except Exception:
+            continue
+
+        if meta["n_samples"] <= 0:
+            try:
+                meta = {
+                    **meta,
+                    "n_samples": int(load_ecg_mat(mat_path).shape[1]),
+                }
+            except Exception:
+                continue
+
         records.append(
             ECGRecord(
                 record_id=meta["record_id"],

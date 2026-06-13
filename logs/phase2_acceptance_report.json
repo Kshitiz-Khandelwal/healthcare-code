@@ -1,0 +1,65 @@
+{
+  "phase": 2,
+  "model_name": "efficientnet_b4",
+  "passed": true,
+  "checks": {
+    "manifest_exists": true,
+    "manifest_rows_1000": true,
+    "all_manifest_images_exist": true,
+    "hybrid_exists": true,
+    "hybrid_rows_1000": true,
+    "deep_feature_count_1792": true,
+    "comparison_results_exist": true,
+    "artifact_classifier": true,
+    "artifact_feature_list": true,
+    "artifact_scaler": true,
+    "artifact_pca": true,
+    "artifact_metadata": true
+  },
+  "observed": {
+    "manifest_path": "C:\\Users\\Admin\\Desktop\\Kshitiz\\healthcare project\\healthcare project\\outputs\\deep_features\\manifests\\scalogram_manifest_3ch_380.csv",
+    "manifest_rows": 1000,
+    "missing_images": 0,
+    "hybrid_rows": 1000,
+    "hybrid_columns": 1814,
+    "deep_feature_columns": 1792,
+    "results_rows": [
+      {
+        "experiment": "efficientnet_only",
+        "feature_count": "1792",
+        "cv_accuracy_mean": "0.8837543296443355",
+        "cv_macro_f1_mean": "0.8305343305253065",
+        "cv_weighted_f1_mean": "0.8817884622634294",
+        "test_accuracy": "0.92",
+        "test_macro_f1": "0.8951528659297726",
+        "test_weighted_f1": "0.9181389086877325",
+        "test_auc_ovr_weighted": "0.9706031117091972",
+        "runtime_seconds": "1.7885084000008646"
+      },
+      {
+        "experiment": "hybrid_handcrafted_efficientnet",
+        "feature_count": "1809",
+        "cv_accuracy_mean": "0.8825011968122554",
+        "cv_macro_f1_mean": "0.8254584366312954",
+        "cv_weighted_f1_mean": "0.8799911702755819",
+        "test_accuracy": "0.92",
+        "test_macro_f1": "0.8933836537327515",
+        "test_weighted_f1": "0.9164370798443212",
+        "test_auc_ovr_weighted": "0.9654884120813396",
+        "runtime_seconds": "1.7580836999986786"
+      },
+      {
+        "experiment": "handcrafted_only",
+        "feature_count": "17",
+        "cv_accuracy_mean": "0.9287779373527453",
+        "cv_macro_f1_mean": "0.9037017349618316",
+        "cv_weighted_f1_mean": "0.928176112646235",
+        "test_accuracy": "0.91",
+        "test_macro_f1": "0.8792845896346869",
+        "test_weighted_f1": "0.9067024967252807",
+        "test_auc_ovr_weighted": "0.9597347820308346",
+        "runtime_seconds": "0.8053436999907717"
+      }
+    ]
+  }
+}

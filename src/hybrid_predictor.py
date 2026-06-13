@@ -69,7 +69,14 @@ def load_hybrid_artifacts(config, model_name: str | None = None) -> HybridArtifa
         )
 
     features = list(joblib.load(required_paths["features"]))
-    metadata = load_and_validate_metadata(required_paths["metadata"], features)
+    try:
+        metadata = load_and_validate_metadata(required_paths["metadata"], features)
+    except ValueError as exc:
+        raise HybridPredictionError(
+            f"Version check failed: Feature-list hash mismatch for model metadata of {model_name}. "
+            f"Please verify model artifacts are consistent. Error: {exc}"
+        ) from exc
+
     deep_model, transform, device, expected_dim = load_efficientnet_backbone(model_name)
 
     metadata_dim = int(metadata.get("embedding_dimension", expected_dim))
@@ -111,19 +118,23 @@ class HybridECGPredictor:
         age: int,
         sex: int,
         record_id: str,
+        status_callback=None,
     ) -> tuple[pd.DataFrame, np.ndarray, dict[str, float], dict[str, float]]:
         if ecg.ndim != 2:
             raise HybridPredictionError(f"{record_id}: expected 2D ECG data, got {ecg.shape}.")
-        if ecg.shape[0] <= max(self.config.lead_indices):
+        if ecg.shape[0] < 12:
             raise HybridPredictionError(
-                f"{record_id}: expected at least 11 leads for I/II/V5, got {ecg.shape[0]}."
+                f"{record_id}: unexpected lead count: {ecg.shape[0]} (expected at least 12 leads)."
             )
-        if sampling_frequency <= 0:
+        if sampling_frequency != 500:
             raise HybridPredictionError(
-                f"{record_id}: invalid sampling frequency {sampling_frequency}."
+                f"{record_id}: unexpected sampling rate: {sampling_frequency} Hz (expected 500 Hz)."
             )
 
         timings: dict[str, float] = {}
+        
+        if status_callback:
+            status_callback("2/6 Bandpass filtering and CWT scalogram generation")
         started = time.perf_counter()
         image = build_3channel_scalogram(
             ecg,
@@ -133,6 +144,8 @@ class HybridECGPredictor:
         )
         timings["preprocessing_scalogram_seconds"] = time.perf_counter() - started
 
+        if status_callback:
+            status_callback("3/6 EfficientNet embedding extraction")
         started = time.perf_counter()
         embedding = extract_embedding_from_image(
             image,
@@ -143,6 +156,8 @@ class HybridECGPredictor:
         )
         timings["embedding_seconds"] = time.perf_counter() - started
 
+        if status_callback:
+            status_callback("4/6 Handcrafted HRV feature extraction")
         started = time.perf_counter()
         handcrafted = extract_enhanced_handcrafted_features(
             ecg[1],
@@ -150,40 +165,61 @@ class HybridECGPredictor:
         )
         timings["handcrafted_seconds"] = time.perf_counter() - started
 
-        feature_values: dict[str, float] = {
-            **{name: float(handcrafted[name]) for name in HANDCRAFTED_FEATURES},
-            **{f"eff_{index:04d}": float(value) for index, value in enumerate(embedding)},
-            "age": float(age),
-            "sex": float(sex),
-        }
-        missing = [feature for feature in self.artifacts.features if feature not in feature_values]
-        if missing:
-            raise HybridPredictionError(
-                f"{record_id}: required model features are missing: {missing[:10]}"
-            )
+        # Explicitly concatenate features into Series and reindex
+        handcrafted_series = pd.Series({name: float(handcrafted[name]) for name in HANDCRAFTED_FEATURES})
+        deep_series = pd.Series({f"eff_{index:04d}": float(value) for index, value in enumerate(embedding)})
+        meta_series = pd.Series({"age": float(age), "sex": float(sex)})
+        
+        combined_series = pd.concat([handcrafted_series, deep_series, meta_series])
+        
+        if status_callback:
+            status_callback("5/6 Schema validation, scaling, and PCA")
+            
+        frame = pd.DataFrame([combined_series]).reindex(columns=self.artifacts.features)
 
-        frame = pd.DataFrame(
-            [[feature_values[feature] for feature in self.artifacts.features]],
-            columns=self.artifacts.features,
-        )
+        # Assert no NaN/Inf values
         values = frame.to_numpy(dtype=np.float64)
         if not np.isfinite(values).all():
-            raise HybridPredictionError(f"{record_id}: feature vector contains NaN or Inf.")
+            raise HybridPredictionError(
+                f"{record_id}: Schema validation failed - feature vector contains NaN or Inf values after reindexing."
+            )
+            
+        # Assert column order exactly matches the feature list
         if list(frame.columns) != self.artifacts.features:
-            raise HybridPredictionError(f"{record_id}: feature order validation failed.")
+            raise HybridPredictionError(
+                f"{record_id}: Schema validation failed - column order does not match saved feature list."
+            )
+
         return frame, image, handcrafted, timings
 
-    def predict_record(self, record: ECGRecord) -> dict[str, Any]:
+    def predict_record(self, record: ECGRecord, status_callback=None) -> dict[str, Any]:
         total_started = time.perf_counter()
-        ecg = load_ecg_mat(record.mat_path)
+        
+        if status_callback:
+            status_callback("1/6 Loading raw .mat/.hea record")
+            
+        if not record.mat_path.exists():
+            raise FileNotFoundError(f"ECG MAT file not found: {record.mat_path}")
+        if not record.hea_path.exists():
+            raise FileNotFoundError(f"ECG header file not found: {record.hea_path}")
+            
+        try:
+            ecg = load_ecg_mat(record.mat_path)
+        except Exception as exc:
+            raise HybridPredictionError(f"Corrupt MAT file or failed to parse: {exc}") from exc
+            
         frame, image, handcrafted, timings = self._build_feature_frame(
             ecg=ecg,
             sampling_frequency=record.sampling_frequency,
             age=record.age,
             sex=record.sex,
             record_id=record.record_id,
+            status_callback=status_callback,
         )
 
+        if status_callback:
+            status_callback("6/6 LightGBM classification and risk assignment")
+            
         started = time.perf_counter()
         transformed = self.artifacts.scaler.transform(frame)
         if self.artifacts.pca is not None:
@@ -260,4 +296,3 @@ class HybridECGPredictor:
                 "error": f"{type(exc).__name__}: {exc}",
                 "total_seconds": 0.0,
             }
-
