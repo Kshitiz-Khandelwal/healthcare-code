@@ -228,6 +228,18 @@ def get_hrv_delta(name: str, value: float) -> tuple[str, str]:
     return "", "off"
 
 
+@st.cache_data(show_spinner=False)
+def load_validation_report() -> Optional[dict]:
+    report_path = CONFIG.log_dir / "final_validation_report.json"
+    if not report_path.exists():
+        return None
+    try:
+        import json
+        return json.loads(report_path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+
+
 st.title("ECG Hybrid Monitoring System")
 st.caption("EfficientNet scalogram features + clinical ECG features + LightGBM")
 st.warning(
@@ -235,245 +247,328 @@ st.warning(
     "diagnostic device; every result requires review by a qualified clinician."
 )
 
-frame = load_predictions(PREDICTIONS_PATH)
-if frame is None:
-    st.info("No compatible prediction log found. Run `python predict.py --limit 5` first.")
-    st.stop()
+tab_monitor, tab_performance = st.tabs(["📋 Live Patient Monitoring", "📊 Model Performance & Benchmarks"])
 
-errors = frame[frame["status"] == "error"].copy()
-frame = frame[frame["status"] == "ok"].copy()
-if frame.empty:
-    st.error("The prediction log contains no successful records.")
-    if not errors.empty:
-        st.dataframe(errors[["record_id", "error"]], use_container_width=True, hide_index=True)
-    st.stop()
-
-model_name = (
-    str(frame["model_name"].dropna().iloc[-1])
-    if "model_name" in frame.columns and frame["model_name"].notna().any()
-    else CONFIG.active_model_name
-)
-
-try:
-    resources = load_model_resources(model_name)
-    resource_status = f"{resources.model_name} ready on {resources.device}"
-except Exception as exc:
-    resources = None
-    resource_status = f"Artifact load warning: {exc}"
-
-status_col, refresh_col = st.columns([5, 1])
-with status_col:
-    st.caption(
-        "Pipeline: preprocessing -> CWT scalogram -> EfficientNet embedding -> "
-        f"feature schema -> scaler/PCA -> classifier | {resource_status}"
-    )
-with refresh_col:
-    if st.button("Refresh", use_container_width=True):
-        st.cache_data.clear()
-        st.rerun()
-
-st.subheader("Session Overview")
-total = len(frame)
-high_count = int((frame["risk"] == "HIGH").sum())
-arrhythmia_percent = 100 * float((frame["prediction"] == "Arrhythmia").mean())
-average_confidence = float(frame["confidence"].mean())
-average_hr = float(frame["heart_rate"].mean())
-average_hrv = float(frame["hrv"].mean())
-
-metrics = st.columns(6)
-metrics[0].metric("Records", total)
-metrics[1].metric("High risk", high_count)
-metrics[2].metric("Arrhythmia", f"{arrhythmia_percent:.1f}%")
-metrics[3].metric("Avg confidence", f"{average_confidence:.1f}%")
-metrics[4].metric("Avg heart rate", f"{average_hr:.1f} BPM")
-metrics[5].metric("Avg HRV", f"{average_hrv:.1f} ms")
-
-st.markdown("**Session Temporal HRV Averages**")
-session_hrv_metrics = st.columns(3)
-avg_sdnn = float(frame["sdnn"].dropna().mean()) if "sdnn" in frame.columns and frame["sdnn"].notna().any() else 0.0
-avg_rmssd = float(frame["rmssd"].dropna().mean()) if "rmssd" in frame.columns and frame["rmssd"].notna().any() else 0.0
-avg_pnn50 = float(frame["pnn50"].dropna().mean()) if "pnn50" in frame.columns and frame["pnn50"].notna().any() else 0.0
-
-delta_sdnn, col_sdnn = get_hrv_delta("sdnn", avg_sdnn)
-delta_rmssd, col_rmssd = get_hrv_delta("rmssd", avg_rmssd)
-delta_pnn50, col_pnn50 = get_hrv_delta("pnn50", avg_pnn50)
-
-session_hrv_metrics[0].metric("Avg SDNN", f"{avg_sdnn:.1f} ms", delta=delta_sdnn, delta_color=col_sdnn)
-session_hrv_metrics[1].metric("Avg RMSSD", f"{avg_rmssd:.1f} ms", delta=delta_rmssd, delta_color=col_rmssd)
-session_hrv_metrics[2].metric("Avg pNN50", f"{avg_pnn50 * 100:.1f}%" if avg_pnn50 <= 1.0 else f"{avg_pnn50:.1f}%", delta=delta_pnn50, delta_color=col_pnn50)
-
-st.subheader("Record Review")
-record_ids = frame["record_id"].astype(str).tolist()
-selected_id = st.selectbox("Record", record_ids, index=len(record_ids) - 1)
-selected = frame[frame["record_id"].astype(str) == selected_id].iloc[-1]
-
-detail_left, detail_right = st.columns([3, 2])
-with detail_left:
-    clinical_metrics = st.columns(6)
-    heart_rate = metric_value(selected, "heart_rate")
-    hrv = metric_value(selected, "hrv")
-    sdnn = metric_value(selected, "sdnn")
-    rmssd = metric_value(selected, "rmssd")
-    pnn50 = metric_value(selected, "pnn50")
-    confidence = metric_value(selected, "confidence")
-
-    rec_delta_sdnn, rec_col_sdnn = get_hrv_delta("sdnn", sdnn)
-    rec_delta_rmssd, rec_col_rmssd = get_hrv_delta("rmssd", rmssd)
-    rec_delta_pnn50, rec_col_pnn50 = get_hrv_delta("pnn50", pnn50)
-
-    clinical_metrics[0].metric("Heart rate", f"{heart_rate:.1f} BPM")
-    clinical_metrics[1].metric("HRV", f"{hrv:.1f} ms")
-    clinical_metrics[2].metric("SDNN", f"{sdnn:.1f} ms", delta=rec_delta_sdnn, delta_color=rec_col_sdnn)
-    clinical_metrics[3].metric("RMSSD", f"{rmssd:.1f} ms", delta=rec_delta_rmssd, delta_color=rec_col_rmssd)
-    clinical_metrics[4].metric("pNN50", f"{pnn50 * 100:.1f}%" if pnn50 <= 1.0 else f"{pnn50:.1f}%", delta=rec_delta_pnn50, delta_color=rec_col_pnn50)
-    clinical_metrics[5].metric("Confidence", f"{confidence:.1f}%")
-
-    st.markdown(
-        f"**Prediction:** {selected['prediction']}  \n"
-        f"**Risk:** {selected['risk']}  \n"
-        f"**Model:** {selected.get('model_name', model_name)}  \n"
-        f"**Total inference latency:** {metric_value(selected, 'total_seconds'):.3f} seconds"
-    )
-    explanation = str(selected.get("explanation", "")).strip()
-    if explanation:
-        st.info(explanation)
-
-with detail_right:
-    if st.button("Run live inference on selected record", use_container_width=True):
-        with st.status(
-            f"Running EfficientNet-B4 + LightGBM hybrid model pipeline on {selected_id}...",
-            expanded=True,
-        ) as status:
-            def update_status_step(msg):
-                st.write(msg)
-            
-            try:
-                predictor = load_predictor(model_name)
-                # Find matching record
-                records = discover_records(CONFIG.raw_dataset_dir, limit=5000)
-                record = next(r for r in records if r.record_id == selected_id)
-                
-                live_result = predictor.predict_record(record, status_callback=update_status_step)
-                
-                if live_result["status"] == "ok":
-                    status.update(
-                        label=(
-                            f"Live inference complete: {live_result['prediction']} "
-                            f"({live_result['confidence']:.1f}%)"
-                        ),
-                        state="complete",
-                    )
-                    st.session_state["live_result"] = live_result
-                    st.rerun()
-                else:
-                    status.update(label="Live inference failed", state="error")
-                    st.error(live_result.get("error", "Unknown error"))
-            except Exception as exc:
-                status.update(label=f"Inference error: {type(exc).__name__}", state="error")
-                st.error(f"Failed to run inference: {exc}")
-
-    live_result = st.session_state.get("live_result")
-    if live_result and live_result.get("record_id") == selected_id:
-        st.caption(
-            "Latest live run: "
-            f"preprocess/scalogram {live_result.get('preprocessing_scalogram_seconds', 0):.3f}s, "
-            f"embedding {live_result.get('embedding_seconds', 0):.3f}s, "
-            f"classifier {live_result.get('classifier_seconds', 0):.3f}s, "
-            f"total {live_result.get('total_seconds', 0):.3f}s"
-        )
-
-st.subheader("ECG Signal & Scalogram Analysis")
-analysis_left, analysis_right = st.columns([3, 2])
-with analysis_left:
-    try:
-        raw_ecg, raw_fs = load_raw_signal(selected_id)
-        ecg_fig = plot_ecg_signals(raw_ecg, raw_fs)
-        st.plotly_chart(ecg_fig, use_container_width=True)
-    except Exception as e:
-        st.error(f"Could not load raw ECG time-series: {e}")
-
-with analysis_right:
-    scalogram_path = Path(str(selected.get("scalogram_path", "")))
-    if scalogram_path.exists() and scalogram_path.is_file():
-        st.image(
-            Image.open(scalogram_path),
-            caption=f"Three-channel CWT scalogram for {selected_id}",
-            use_container_width=True,
-        )
+with tab_monitor:
+    frame = load_predictions(PREDICTIONS_PATH)
+    if frame is None:
+        st.info("No compatible prediction log found. Run `python predict.py --limit 5` first.")
     else:
-        st.info("ℹ️ CWT scalogram image file not found. Click 'Run live inference' to generate it.")
+        errors = frame[frame["status"] == "error"].copy()
+        frame = frame[frame["status"] == "ok"].copy()
+        if frame.empty:
+            st.error("The prediction log contains no successful records.")
+            if not errors.empty:
+                st.dataframe(errors[["record_id", "error"]], use_container_width=True, hide_index=True)
+        else:
+            model_name = (
+                str(frame["model_name"].dropna().iloc[-1])
+                if "model_name" in frame.columns and frame["model_name"].notna().any()
+                else CONFIG.active_model_name
+            )
 
-chart_left, chart_right = st.columns(2)
-with chart_left:
-    prediction_counts = frame["prediction"].value_counts()
-    prediction_figure = go.Figure(
-        go.Pie(
-            labels=prediction_counts.index,
-            values=prediction_counts.values,
-            hole=0.55,
-            marker={
-                "colors": [
-                    PREDICTION_COLORS.get(label, "#777777")
-                    for label in prediction_counts.index
-                ]
+            try:
+                resources = load_model_resources(model_name)
+                resource_status = f"{resources.model_name} ready on {resources.device}"
+            except Exception as exc:
+                resources = None
+                resource_status = f"Artifact load warning: {exc}"
+
+            status_col, refresh_col = st.columns([5, 1])
+            with status_col:
+                st.caption(
+                    "Pipeline: preprocessing -> CWT scalogram -> EfficientNet embedding -> "
+                    f"feature schema -> scaler/PCA -> classifier | {resource_status}"
+                )
+            with refresh_col:
+                if st.button("Refresh", use_container_width=True):
+                    st.cache_data.clear()
+                    st.rerun()
+
+            st.subheader("Session Overview")
+            total = len(frame)
+            high_count = int((frame["risk"] == "HIGH").sum())
+            arrhythmia_percent = 100 * float((frame["prediction"] == "Arrhythmia").mean())
+            average_confidence = float(frame["confidence"].mean())
+            average_hr = float(frame["heart_rate"].mean())
+            average_hrv = float(frame["hrv"].mean())
+
+            metrics = st.columns(6)
+            metrics[0].metric("Records", total)
+            metrics[1].metric("High risk", high_count)
+            metrics[2].metric("Arrhythmia", f"{arrhythmia_percent:.1f}%")
+            metrics[3].metric("Avg confidence", f"{average_confidence:.1f}%")
+            metrics[4].metric("Avg heart rate", f"{average_hr:.1f} BPM")
+            metrics[5].metric("Avg HRV", f"{average_hrv:.1f} ms")
+
+            st.markdown("**Session Temporal HRV Averages**")
+            session_hrv_metrics = st.columns(3)
+            avg_sdnn = float(frame["sdnn"].dropna().mean()) if "sdnn" in frame.columns and frame["sdnn"].notna().any() else 0.0
+            avg_rmssd = float(frame["rmssd"].dropna().mean()) if "rmssd" in frame.columns and frame["rmssd"].notna().any() else 0.0
+            avg_pnn50 = float(frame["pnn50"].dropna().mean()) if "pnn50" in frame.columns and frame["pnn50"].notna().any() else 0.0
+
+            delta_sdnn, col_sdnn = get_hrv_delta("sdnn", avg_sdnn)
+            delta_rmssd, col_rmssd = get_hrv_delta("rmssd", avg_rmssd)
+            delta_pnn50, col_pnn50 = get_hrv_delta("pnn50", avg_pnn50)
+
+            session_hrv_metrics[0].metric("Avg SDNN", f"{avg_sdnn:.1f} ms", delta=delta_sdnn, delta_color=col_sdnn)
+            session_hrv_metrics[1].metric("Avg RMSSD", f"{avg_rmssd:.1f} ms", delta=delta_rmssd, delta_color=col_rmssd)
+            session_hrv_metrics[2].metric("Avg pNN50", f"{avg_pnn50 * 100:.1f}%" if avg_pnn50 <= 1.0 else f"{avg_pnn50:.1f}%", delta=delta_pnn50, delta_color=col_pnn50)
+
+            st.subheader("Record Review")
+            record_ids = frame["record_id"].astype(str).tolist()
+            selected_id = st.selectbox("Record", record_ids, index=len(record_ids) - 1)
+            selected = frame[frame["record_id"].astype(str) == selected_id].iloc[-1]
+
+            detail_left, detail_right = st.columns([3, 2])
+            with detail_left:
+                clinical_metrics = st.columns(6)
+                heart_rate = metric_value(selected, "heart_rate")
+                hrv = metric_value(selected, "hrv")
+                sdnn = metric_value(selected, "sdnn")
+                rmssd = metric_value(selected, "rmssd")
+                pnn50 = metric_value(selected, "pnn50")
+                confidence = metric_value(selected, "confidence")
+
+                rec_delta_sdnn, rec_col_sdnn = get_hrv_delta("sdnn", sdnn)
+                rec_delta_rmssd, rec_col_rmssd = get_hrv_delta("rmssd", rmssd)
+                rec_delta_pnn50, rec_col_pnn50 = get_hrv_delta("pnn50", pnn50)
+
+                clinical_metrics[0].metric("Heart rate", f"{heart_rate:.1f} BPM")
+                clinical_metrics[1].metric("HRV", f"{hrv:.1f} ms")
+                clinical_metrics[2].metric("SDNN", f"{sdnn:.1f} ms", delta=rec_delta_sdnn, delta_color=rec_col_sdnn)
+                clinical_metrics[3].metric("RMSSD", f"{rmssd:.1f} ms", delta=rec_delta_rmssd, delta_color=rec_col_rmssd)
+                clinical_metrics[4].metric("pNN50", f"{pnn50 * 100:.1f}%" if pnn50 <= 1.0 else f"{pnn50:.1f}%", delta=rec_delta_pnn50, delta_color=rec_col_pnn50)
+                clinical_metrics[5].metric("Confidence", f"{confidence:.1f}%")
+
+                st.markdown(
+                    f"**Prediction:** {selected['prediction']}  \n"
+                    f"**Risk:** {selected['risk']}  \n"
+                    f"**Model:** {selected.get('model_name', model_name)}  \n"
+                    f"**Total inference latency:** {metric_value(selected, 'total_seconds'):.3f} seconds"
+                )
+                explanation = str(selected.get("explanation", "")).strip()
+                if explanation:
+                    st.info(explanation)
+
+            with detail_right:
+                if st.button("Run live inference on selected record", use_container_width=True):
+                    with st.status(
+                        f"Running EfficientNet-B4 + LightGBM hybrid model pipeline on {selected_id}...",
+                        expanded=True,
+                    ) as status:
+                        def update_status_step(msg):
+                            st.write(msg)
+                        
+                        try:
+                            predictor = load_predictor(model_name)
+                            # Find matching record
+                            records = discover_records(CONFIG.raw_dataset_dir, limit=5000)
+                            record = next(r for r in records if r.record_id == selected_id)
+                            
+                            live_result = predictor.predict_record(record, status_callback=update_status_step)
+                            
+                            if live_result["status"] == "ok":
+                                status.update(
+                                    label=(
+                                        f"Live inference complete: {live_result['prediction']} "
+                                        f"({live_result['confidence']:.1f}%)"
+                                    ),
+                                    state="complete",
+                                )
+                                st.session_state["live_result"] = live_result
+                                st.rerun()
+                            else:
+                                status.update(label="Live inference failed", state="error")
+                                st.error(live_result.get("error", "Unknown error"))
+                        except Exception as exc:
+                            status.update(label=f"Inference error: {type(exc).__name__}", state="error")
+                            st.error(f"Failed to run inference: {exc}")
+
+                live_result = st.session_state.get("live_result")
+                if live_result and live_result.get("record_id") == selected_id:
+                    st.caption(
+                        "Latest live run: "
+                        f"preprocess/scalogram {live_result.get('preprocessing_scalogram_seconds', 0):.3f}s, "
+                        f"embedding {live_result.get('embedding_seconds', 0):.3f}s, "
+                        f"classifier {live_result.get('classifier_seconds', 0):.3f}s, "
+                        f"total {live_result.get('total_seconds', 0):.3f}s"
+                    )
+
+            st.subheader("ECG Signal & Scalogram Analysis")
+            analysis_left, analysis_right = st.columns([3, 2])
+            with analysis_left:
+                try:
+                    raw_ecg, raw_fs = load_raw_signal(selected_id)
+                    ecg_fig = plot_ecg_signals(raw_ecg, raw_fs)
+                    st.plotly_chart(ecg_fig, use_container_width=True)
+                except Exception as e:
+                    st.error(f"Could not load raw ECG time-series: {e}")
+
+            with analysis_right:
+                scalogram_path = Path(str(selected.get("scalogram_path", "")))
+                if scalogram_path.exists() and scalogram_path.is_file():
+                    st.image(
+                        Image.open(scalogram_path),
+                        caption=f"Three-channel CWT scalogram for {selected_id}",
+                        use_container_width=True,
+                    )
+                else:
+                    st.info("ℹ️ CWT scalogram image file not found. Click 'Run live inference' to generate it.")
+
+            chart_left, chart_right = st.columns(2)
+            with chart_left:
+                prediction_counts = frame["prediction"].value_counts()
+                prediction_figure = go.Figure(
+                    go.Pie(
+                        labels=prediction_counts.index,
+                        values=prediction_counts.values,
+                        hole=0.55,
+                        marker={
+                            "colors": [
+                                PREDICTION_COLORS.get(label, "#777777")
+                                for label in prediction_counts.index
+                            ]
+                        },
+                    )
+                )
+                prediction_figure.update_layout(title="Prediction Distribution", height=330)
+                st.plotly_chart(prediction_figure, use_container_width=True)
+
+            with chart_right:
+                scatter = px.scatter(
+                    frame,
+                    x="heart_rate",
+                    y="hrv",
+                    color="risk",
+                    color_discrete_map=RISK_COLORS,
+                    hover_data=["record_id", "prediction", "confidence"],
+                    labels={"heart_rate": "Heart rate (BPM)", "hrv": "HRV (ms)"},
+                    title="Heart Rate vs HRV",
+                )
+                scatter.update_layout(height=330)
+                st.plotly_chart(scatter, use_container_width=True)
+
+            if resources is not None:
+                importance = get_original_feature_importance(model_name)
+                if not importance.empty:
+                    with st.expander("Top clinical & deep feature contributors (Projected from PCA)"):
+                        st.bar_chart(importance, x="feature", y="importance", use_container_width=True)
+                        
+                        # Show a small table of the top clinical/handcrafted feature values for this patient
+                        clinical_features_in_top = [f for f in importance["feature"].tolist() if not f.startswith("eff_")]
+                        if clinical_features_in_top:
+                            st.markdown("**Patient values for top clinical contributors:**")
+                            vals = {f: [selected.get(f, "N/A")] for f in clinical_features_in_top}
+                            st.dataframe(pd.DataFrame(vals), hide_index=True)
+
+            st.subheader("Prediction Log")
+            display_columns = [
+                "record_id",
+                "prediction",
+                "confidence",
+                "risk",
+                "heart_rate",
+                "hrv",
+                "sdnn",
+                "rmssd",
+                "pnn50",
+                "model_name",
+                "total_seconds",
+            ]
+            st.dataframe(
+                frame[[column for column in display_columns if column in frame.columns]],
+                use_container_width=True,
+                hide_index=True,
+            )
+
+            if not errors.empty:
+                with st.expander(f"Errors ({len(errors)})"):
+                    st.dataframe(
+                        errors[["record_id", "error"]],
+                        use_container_width=True,
+                        hide_index=True,
+                    )
+
+with tab_performance:
+    report = load_validation_report()
+    if report is None:
+        st.info("Validation report not found. Run `python scripts/validate_all.py` first to compile training benchmarks.")
+    else:
+        st.subheader("Model Performance Comparison (B0 Prototype vs B4 Production)")
+        
+        # Build comparison dataframe
+        b0 = report.get("prototype_metrics", {})
+        b4 = report.get("production_metrics", {})
+        cmp_ = report.get("b4_vs_b0_comparison", {})
+        
+        metrics_df = pd.DataFrame([
+            {
+                "Metric": "Cross-Validation Accuracy (Mean)",
+                "B0 Baseline Prototype": f"{b0.get('cv_accuracy_mean', 0.0)*100:.2f}%",
+                "B4 Final Production": f"{b4.get('cv_accuracy_mean', 0.0)*100:.2f}%",
+                "Improvement Delta": f"{cmp_.get('accuracy_delta', 0.0)*100:+.2f}%"
             },
-        )
-    )
-    prediction_figure.update_layout(title="Prediction Distribution", height=330)
-    st.plotly_chart(prediction_figure, use_container_width=True)
-
-with chart_right:
-    scatter = px.scatter(
-        frame,
-        x="heart_rate",
-        y="hrv",
-        color="risk",
-        color_discrete_map=RISK_COLORS,
-        hover_data=["record_id", "prediction", "confidence"],
-        labels={"heart_rate": "Heart rate (BPM)", "hrv": "HRV (ms)"},
-        title="Heart Rate vs HRV",
-    )
-    scatter.update_layout(height=330)
-    st.plotly_chart(scatter, use_container_width=True)
-
-if resources is not None:
-    importance = get_original_feature_importance(model_name)
-    if not importance.empty:
-        with st.expander("Top clinical & deep feature contributors (Projected from PCA)"):
-            st.bar_chart(importance, x="feature", y="importance", use_container_width=True)
+            {
+                "Metric": "Held-Out Test Accuracy",
+                "B0 Baseline Prototype": f"{b0.get('test_accuracy', 0.0)*100:.2f}%",
+                "B4 Final Production": f"{b4.get('test_accuracy', 0.0)*100:.2f}%",
+                "Improvement Delta": f"{(b4.get('test_accuracy', 0.0) - b0.get('test_accuracy', 0.0))*100:+.2f}%"
+            },
+            {
+                "Metric": "Held-Out Test Macro-F1",
+                "B0 Baseline Prototype": f"{b0.get('test_macro_f1', 0.0)*100:.2f}%",
+                "B4 Final Production": f"{b4.get('test_macro_f1', 0.0)*100:.2f}%",
+                "Improvement Delta": f"{cmp_.get('macro_f1_delta', 0.0)*100:+.2f}%"
+            }
+        ])
+        
+        st.dataframe(metrics_df, use_container_width=True, hide_index=True)
+        
+        st.subheader("Class-Level Recall Deltas")
+        b0_rec = b0.get("per_class_recall", {})
+        b4_rec = b4.get("per_class_recall", {})
+        rec_deltas = cmp_.get("per_class_recall_delta", {})
+        
+        rec_rows = []
+        for cls_name in sorted(set(b0_rec.keys()) | set(b4_rec.keys())):
+            rec_rows.append({
+                "Class Label": cls_name,
+                "B0 Prototype Recall": f"{b0_rec.get(cls_name, 0.0)*100:.1f}%",
+                "B4 Production Recall": f"{b4_rec.get(cls_name, 0.0)*100:.1f}%",
+                "Performance Delta": f"{rec_deltas.get(cls_name, 0.0)*100:+.1f}%"
+            })
+        st.dataframe(pd.DataFrame(rec_rows), use_container_width=True, hide_index=True)
+        
+        # Display figures side-by-side
+        st.subheader("Visual Training Plots & Confusion Matrix")
+        col_cm, col_comp = st.columns(2)
+        with col_cm:
+            cm_path = CONFIG.result_dir / "best_model_confusion_matrix_efficientnet_b4.png"
+            if cm_path.exists():
+                st.image(Image.open(cm_path), caption="EfficientNet-B4 Production Confusion Matrix", use_container_width=True)
+            else:
+                st.info("Confusion matrix plot not found.")
+        with col_comp:
+            comp_path = CONFIG.result_dir / "hybrid_comparison_efficientnet_b4.png"
+            if comp_path.exists():
+                st.image(Image.open(comp_path), caption="Experiment Benchmarking Comparison", use_container_width=True)
+            else:
+                st.info("Hybrid comparison plot not found.")
+                
+        # Sign-off and Gate Check
+        st.subheader("Acceptance Gate & Sign-Off Checklist")
+        gates = report.get("sign_off", {})
+        for name, passed in gates.items():
+            status_icon = "🟢 Passed" if passed else "🔴 Pending"
+            st.markdown(f"{status_icon} — **{name.replace('_', ' ').title()}**")
             
-            # Show a small table of the top clinical/handcrafted feature values for this patient
-            clinical_features_in_top = [f for f in importance["feature"].tolist() if not f.startswith("eff_")]
-            if clinical_features_in_top:
-                st.markdown("**Patient values for top clinical contributors:**")
-                vals = {f: [selected.get(f, "N/A")] for f in clinical_features_in_top}
-                st.dataframe(pd.DataFrame(vals), hide_index=True)
-
-st.subheader("Prediction Log")
-display_columns = [
-    "record_id",
-    "prediction",
-    "confidence",
-    "risk",
-    "heart_rate",
-    "hrv",
-    "sdnn",
-    "rmssd",
-    "pnn50",
-    "model_name",
-    "total_seconds",
-]
-st.dataframe(
-    frame[[column for column in display_columns if column in frame.columns]],
-    use_container_width=True,
-    hide_index=True,
-)
-
-if not errors.empty:
-    with st.expander(f"Errors ({len(errors)})"):
-        st.dataframe(
-            errors[["record_id", "error"]],
-            use_container_width=True,
-            hide_index=True,
+        # Environment metadata
+        st.subheader("Inference Environment Context")
+        st.markdown(
+            f"- **Python Version:** `{report.get('environment', {}).get('python', 'N/A')}`  \n"
+            f"- **CUDA Accelerated GPU Support:** `{report.get('environment', {}).get('cuda_available', False)}`  \n"
+            f"- **Trained Model Backbone Profile:** `{report.get('environment', {}).get('active_profile', 'N/A')} ({report.get('environment', {}).get('active_model_name', 'N/A')})`  \n"
+            f"- **Report Generated Timestamp (UTC):** `{report.get('generated_at_utc', 'N/A')}`"
         )
 

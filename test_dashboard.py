@@ -39,7 +39,7 @@ def test_data():
         import pandas as pd
         from pathlib import Path
         
-        CSV_PATH = "predictions.csv"
+        CSV_PATH = Path(__file__).resolve().parent / "predictions.csv"
         p = Path(CSV_PATH)
         
         if not p.exists():
@@ -86,8 +86,9 @@ def test_dashboard_logic():
     
     try:
         import pandas as pd
+        from pathlib import Path
         
-        CSV_PATH = "predictions.csv"
+        CSV_PATH = Path(__file__).resolve().parent / "predictions.csv"
         df = pd.read_csv(CSV_PATH)
         
         # Test metrics
@@ -131,13 +132,13 @@ def test_plotly():
     print("\n" + "=" * 60)
     print("Testing Plotly charts...")
     print("=" * 60)
-    
     try:
         import pandas as pd
         import plotly.graph_objects as go
         import plotly.express as px
+        from pathlib import Path
         
-        CSV_PATH = "predictions.csv"
+        CSV_PATH = Path(__file__).resolve().parent / "predictions.csv"
         df = pd.read_csv(CSV_PATH)
         
         # Test donut chart
