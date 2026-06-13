@@ -1,0 +1,17 @@
+feature,meaning,why_it_matters
+filename,Record identifier,Dropped before modelling because it is not physiological signal.
+mean,Signal baseline mean,Average ECG amplitude across the recording window.
+std,Signal amplitude variability,Measures voltage spread and signal power.
+max,Maximum amplitude,Approximate strongest positive waveform peak.
+min,Minimum amplitude,Approximate strongest negative waveform deflection.
+peak_count,Detected beat count,Number of detected R-peaks in the recording.
+heart_rate,Heart rate in BPM,Average beats per minute.
+energy,Signal energy,Total squared amplitude; proxy for signal strength.
+zero_crossings,Zero crossing count,Frequency and waveform oscillation proxy.
+hrv,Heart-rate variability,Beat-to-beat timing variability; often important for arrhythmia.
+rr_mean,Mean RR interval,Average time between R-peaks.
+skewness,Signal asymmetry,Shape descriptor of ECG amplitude distribution.
+kurtosis,Signal peakedness,Tail and peak descriptor of ECG amplitude distribution.
+age,Patient age,Demographic risk factor.
+sex,Encoded sex,Demographic covariate.
+label,Target class,"0 Normal, 1 Arrhythmia, 2 Other / Unknown."

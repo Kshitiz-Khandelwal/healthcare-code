@@ -1,0 +1,7 @@
+,precision,recall,f1-score,support
+Normal,0.7095,0.7917,0.7484,432.0
+Arrhythmia,0.911,0.883,0.8968,1402.0
+Other / Unknown,0.8318,0.8216,0.8267,566.0
+accuracy,0.8521,0.8521,0.8521,0.8521
+macro avg,0.8175,0.8321,0.8239,2400.0
+weighted avg,0.856,0.8521,0.8535,2400.0

@@ -12,17 +12,28 @@ Run:
     python predict.py
 """
 
+import os
 import sys
 import time
 import joblib
 import numpy as np
 import pandas as pd
 
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+def get_path(filename):
+    return os.path.abspath(os.path.join(SCRIPT_DIR, "..", filename))
+
 # ── explain.py must be in the same directory ──────────────────────────────────
 try:
     from src.explain import explain_prediction, ollama_status
-except ImportError:
-    print("[ERROR] explain.py not found in current directory.")
+except ImportError as e:
+    if e.name in ('explain', 'src.explain'):
+        print("[ERROR] explain.py not found in current directory.")
+    else:
+        print(f"[ERROR] Dependency import error inside explain.py: {e}")
+        import traceback
+        traceback.print_exc()
     raise SystemExit(1)
 
 # ── ANSI colours ──────────────────────────────────────────────────────────────
@@ -143,8 +154,8 @@ print(f"{'='*60}{RS}")
 
 print(f"\n{B}Loading artefacts...{RS}")
 try:
-    model  = joblib.load("model.pkl")
-    scaler = joblib.load("scaler.pkl")
+    model  = joblib.load(get_path("model.pkl"))
+    scaler = joblib.load(get_path("scaler.pkl"))
     print(f"{G}[OK]{RS} model.pkl + scaler.pkl loaded")
 except FileNotFoundError as e:
     print(f"{R}[ERROR]{RS} {e}")
@@ -154,7 +165,7 @@ except FileNotFoundError as e:
 print(f"{G}[OK]{RS} Explanation engine: {ollama_status()}")
 
 print(f"\n{B}Loading ecg_dataset.csv...{RS}")
-df = pd.read_csv("ecg_dataset.csv")
+df = pd.read_csv(get_path("ecg_dataset.csv"))
 for col in FEATURES:
     if col not in df.columns:
         df[col] = 0
@@ -173,7 +184,7 @@ def load_predictions_csv(filename="predictions.csv"):
         try:
             df_pred = pd.read_csv(filename)
             if not df_pred.empty and "patient" not in df_pred.columns:
-                backup_name = "validation_predictions.csv"
+                backup_name = get_path("validation_predictions.csv")
                 print(f"{Y}[WARN]{RS} Old format {filename} detected (from training evaluation). Backing it up to {backup_name} and starting fresh.")
                 df_pred.to_csv(backup_name, index=False)
                 return pd.DataFrame(columns=["patient", "prediction", "confidence", "risk", "heart_rate", "hrv", "explanation"])
@@ -185,7 +196,7 @@ def load_predictions_csv(filename="predictions.csv"):
 
 # Load predictions to filter out already predicted patients
 import os
-existing_df = load_predictions_csv("predictions.csv")
+existing_df = load_predictions_csv(get_path("predictions.csv"))
 predicted_ids = set(existing_df["patient"].unique()) if not existing_df.empty else set()
 
 # Filter dataset to available patients
@@ -251,7 +262,7 @@ phase6_record = pd.DataFrame([{
     "explanation": explanation
 }])
 existing_df = pd.concat([existing_df, phase6_record], ignore_index=True)
-existing_df.to_csv("predictions.csv", index=False)
+existing_df.to_csv(get_path("predictions.csv"), index=False)
 print(f"  {G}[OK]{RS} Phase 6 prediction saved -> predictions.csv")
 print()
 
@@ -263,7 +274,7 @@ print(f"  PHASE 7+8 — Live Monitor: {N_PATIENTS} patients")
 print(f"{'='*60}{RS}\n")
 
 # Refresh existing records and filter pool again to exclude the patient predicted in Phase 6
-existing_df = load_predictions_csv("predictions.csv")
+existing_df = load_predictions_csv(get_path("predictions.csv"))
 predicted_ids = set(existing_df["patient"].unique()) if not existing_df.empty else set()
 available_df = df[~df["patient_id"].isin(predicted_ids)]
 if available_df.empty or len(available_df) < N_PATIENTS:
@@ -337,6 +348,6 @@ else:
 
 # Save to predictions.csv
 combined_df = pd.concat([existing_df, summary_df], ignore_index=True)
-combined_df.to_csv("predictions.csv", index=False)
+combined_df.to_csv(get_path("predictions.csv"), index=False)
 print(f"\n  {G}[OK]{RS} Full results saved -> predictions.csv")
 print(f"{B}{'='*60}{RS}\n")

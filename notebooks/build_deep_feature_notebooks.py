@@ -70,25 +70,21 @@ import pandas as pd
 from tqdm.auto import tqdm
 
 PROJECT_DIR = Path("..").resolve()
-WORKSPACE_DIR = PROJECT_DIR.parents[1]
 SRC_DIR = PROJECT_DIR / "src"
-RAW_DATASET_DIR = WORKSPACE_DIR / "Jennie mams thing finally staritng" / "Dataset" / "WFDBRecords"
-
-OUTPUT_DIR = PROJECT_DIR / "outputs" / "deep_features"
-SCALOGRAM_DIR = OUTPUT_DIR / "scalograms_3ch_224"
-MANIFEST_DIR = OUTPUT_DIR / "manifests"
-
-for path in [SCALOGRAM_DIR, MANIFEST_DIR]:
-    path.mkdir(parents=True, exist_ok=True)
-
+sys.path.insert(0, str(PROJECT_DIR))
 sys.path.insert(0, str(SRC_DIR))
 
+from config import CONFIG
 from ecg_io import LABEL_MAP, discover_records, load_ecg_mat
+from handcrafted_features_v2 import HANDCRAFTED_FEATURES, extract_enhanced_handcrafted_features
+from reproducibility import set_global_seed
 from scalogram import DEFAULT_LEAD_INDICES, DEFAULT_LEAD_NAMES, build_3channel_scalogram, save_scalogram_png
 
+seed_state = set_global_seed(CONFIG.seed)
+
 print("Project:", PROJECT_DIR)
-print("Raw dataset:", RAW_DATASET_DIR)
-print("Scalogram output:", SCALOGRAM_DIR)
+print("Raw dataset:", CONFIG.raw_dataset_dir)
+print("Seed state:", seed_state)
 """
     ),
     md(
@@ -104,14 +100,26 @@ Use `MAX_RECORDS` for quick testing. Recommended:
     ),
     code(
         r"""
-MAX_RECORDS = 300
-TARGET_SIZE = (224, 224)  # EfficientNet-B0 prototype size. Use (380, 380) for EfficientNet-B4 final.
+MODEL_NAME = CONFIG.active_model_name
+MAX_RECORDS = CONFIG.active_max_records
+TARGET_SIZE = CONFIG.model_target_size(MODEL_NAME)
 OVERWRITE_IMAGES = False
+CHECKPOINT_EVERY = CONFIG.checkpoint_every
 
-records = discover_records(RAW_DATASET_DIR, limit=MAX_RECORDS)
+SCALOGRAM_DIR = CONFIG.scalogram_dir(MODEL_NAME)
+MANIFEST_PATH = CONFIG.scalogram_manifest_path(MODEL_NAME)
+HANDCRAFTED_PATH = CONFIG.feature_dir / "enhanced_handcrafted_features.csv"
+FAILED_PATH = CONFIG.manifest_dir / f"scalogram_failed_records_{MODEL_NAME}.csv"
+
+SCALOGRAM_DIR.mkdir(parents=True, exist_ok=True)
+
+records = discover_records(CONFIG.raw_dataset_dir, limit=MAX_RECORDS)
 manifest_preview = pd.DataFrame([r.__dict__ for r in records])
 manifest_preview["dx_codes"] = manifest_preview["dx_codes"].apply(lambda codes: ",".join(codes))
 
+print("Model:", MODEL_NAME)
+print("Target size:", TARGET_SIZE)
+print("Scalogram output:", SCALOGRAM_DIR)
 print(f"Discovered records: {len(records):,}")
 display(manifest_preview[["record_id", "label", "label_name", "age", "sex", "sampling_frequency", "n_leads", "n_samples"]].head())
 display(manifest_preview["label_name"].value_counts().rename_axis("label_name").reset_index(name="count"))
@@ -130,15 +138,33 @@ Each image channel represents a clinically useful lead:
     ),
     code(
         r"""
-rows = []
-failed = []
+def load_existing(path):
+    return pd.read_csv(path).to_dict("records") if path.exists() else []
 
-for record in tqdm(records, desc="Generating scalograms"):
+
+rows = load_existing(MANIFEST_PATH)
+failed = load_existing(FAILED_PATH)
+handcrafted_rows = load_existing(HANDCRAFTED_PATH)
+
+completed_ids = {str(row["record_id"]) for row in rows}
+handcrafted_ids = {str(row["record_id"]) for row in handcrafted_rows}
+
+
+def save_checkpoints():
+    pd.DataFrame(rows).drop_duplicates("record_id", keep="last").to_csv(MANIFEST_PATH, index=False)
+    pd.DataFrame(handcrafted_rows).drop_duplicates("record_id", keep="last").to_csv(HANDCRAFTED_PATH, index=False)
+    pd.DataFrame(failed, columns=["record_id", "error"]).to_csv(FAILED_PATH, index=False)
+
+
+for index, record in enumerate(tqdm(records, desc="Generating scalograms"), start=1):
     output_path = SCALOGRAM_DIR / f"{record.record_id}.png"
 
     try:
-        if OVERWRITE_IMAGES or not output_path.exists():
+        needs_ecg = OVERWRITE_IMAGES or not output_path.exists() or record.record_id not in handcrafted_ids
+        if needs_ecg:
             ecg = load_ecg_mat(record.mat_path)
+
+        if OVERWRITE_IMAGES or not output_path.exists():
             image = build_3channel_scalogram(
                 ecg,
                 fs=record.sampling_frequency,
@@ -147,37 +173,53 @@ for record in tqdm(records, desc="Generating scalograms"):
             )
             save_scalogram_png(image, output_path)
 
-        rows.append({
-            "record_id": record.record_id,
-            "mat_path": str(record.mat_path),
-            "hea_path": str(record.hea_path),
-            "image_path": str(output_path),
-            "label": record.label,
-            "label_name": record.label_name,
-            "age": record.age,
-            "sex": record.sex,
-            "dx_codes": ",".join(record.dx_codes),
-            "sampling_frequency": record.sampling_frequency,
-            "n_leads": record.n_leads,
-            "n_samples": record.n_samples,
-            "lead_indices": ",".join(map(str, DEFAULT_LEAD_INDICES)),
-            "lead_names": ",".join(DEFAULT_LEAD_NAMES),
-            "image_height": TARGET_SIZE[1],
-            "image_width": TARGET_SIZE[0],
-        })
+        if record.record_id not in completed_ids:
+            rows.append({
+                "record_id": record.record_id,
+                "mat_path": str(record.mat_path),
+                "hea_path": str(record.hea_path),
+                "image_path": str(output_path),
+                "label": record.label,
+                "label_name": record.label_name,
+                "age": record.age,
+                "sex": record.sex,
+                "dx_codes": ",".join(record.dx_codes),
+                "sampling_frequency": record.sampling_frequency,
+                "n_leads": record.n_leads,
+                "n_samples": record.n_samples,
+                "lead_indices": ",".join(map(str, DEFAULT_LEAD_INDICES)),
+                "lead_names": ",".join(DEFAULT_LEAD_NAMES),
+                "image_height": TARGET_SIZE[1],
+                "image_width": TARGET_SIZE[0],
+            })
+            completed_ids.add(record.record_id)
+
+        if record.record_id not in handcrafted_ids:
+            features = extract_enhanced_handcrafted_features(
+                ecg[1],
+                fs=record.sampling_frequency,
+            )
+            handcrafted_rows.append({
+                "record_id": record.record_id,
+                "label": record.label,
+                "label_name": record.label_name,
+                "age": record.age,
+                "sex": record.sex,
+                **{name: features[name] for name in HANDCRAFTED_FEATURES},
+            })
+            handcrafted_ids.add(record.record_id)
     except Exception as exc:
         failed.append({"record_id": record.record_id, "error": str(exc)})
 
-scalogram_manifest = pd.DataFrame(rows)
-failed_df = pd.DataFrame(failed)
+    if index % CHECKPOINT_EVERY == 0:
+        save_checkpoints()
 
-manifest_path = MANIFEST_DIR / "scalogram_manifest_3ch_224.csv"
-failed_path = MANIFEST_DIR / "scalogram_failed_records.csv"
+save_checkpoints()
+scalogram_manifest = pd.read_csv(MANIFEST_PATH)
+failed_df = pd.read_csv(FAILED_PATH)
 
-scalogram_manifest.to_csv(manifest_path, index=False)
-failed_df.to_csv(failed_path, index=False)
-
-print(f"Saved manifest: {manifest_path}")
+print(f"Saved manifest: {MANIFEST_PATH}")
+print(f"Saved handcrafted features: {HANDCRAFTED_PATH}")
 print(f"Generated/available images: {len(scalogram_manifest):,}")
 print(f"Failed records: {len(failed_df):,}")
 display(scalogram_manifest.head())
@@ -255,16 +297,23 @@ from PIL import Image
 from tqdm.auto import tqdm
 
 PROJECT_DIR = Path("..").resolve()
-OUTPUT_DIR = PROJECT_DIR / "outputs" / "deep_features"
-MANIFEST_PATH = OUTPUT_DIR / "manifests" / "scalogram_manifest_3ch_224.csv"
-EMBEDDING_BASE_DIR = OUTPUT_DIR / "embeddings"
-FEATURE_DIR = OUTPUT_DIR / "features"
+SRC_DIR = PROJECT_DIR / "src"
+sys.path.insert(0, str(PROJECT_DIR))
+sys.path.insert(0, str(SRC_DIR))
 
-for path in [EMBEDDING_BASE_DIR, FEATURE_DIR]:
-    path.mkdir(parents=True, exist_ok=True)
+from config import CONFIG
+from reproducibility import set_global_seed
 
-manifest = pd.read_csv(MANIFEST_PATH)
+seed_state = set_global_seed(CONFIG.seed)
+MODEL_NAME = CONFIG.active_model_name
+MAX_IMAGES = CONFIG.active_max_records
+MANIFEST_PATH = CONFIG.scalogram_manifest_path(MODEL_NAME)
+EMBEDDING_DIR = CONFIG.embedding_dir / MODEL_NAME
+EMBEDDING_DIR.mkdir(parents=True, exist_ok=True)
+
+manifest = pd.read_csv(MANIFEST_PATH).head(MAX_IMAGES).copy()
 print("Images available:", len(manifest))
+print("Seed state:", seed_state)
 display(manifest.head())
 """
     ),
@@ -311,11 +360,8 @@ from torch import nn
 from torchvision import models
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-MODEL_NAME = "efficientnet_b0"  # change to "efficientnet_b4" for final run
 BATCH_SIZE = 8 if DEVICE == "cpu" else 32
-MAX_IMAGES = 50  # smoke test first. Increase to 300, 1000, or None after it works.
-EMBEDDING_DIR = EMBEDDING_BASE_DIR / MODEL_NAME
-EMBEDDING_DIR.mkdir(parents=True, exist_ok=True)
+EXPECTED_EMBEDDING_DIM = CONFIG.model_embedding_dim(MODEL_NAME)
 
 if DEVICE == "cpu":
     torch.set_num_threads(4)
@@ -339,6 +385,7 @@ print("Device:", DEVICE)
 print("Model:", MODEL_NAME)
 print("Batch size:", BATCH_SIZE)
 print("Max images this run:", MAX_IMAGES)
+print("Expected embedding dimension:", EXPECTED_EMBEDDING_DIM)
 print("Transform:", transform)
 """
     ),
@@ -360,7 +407,7 @@ def embedding_path(record_id):
     return EMBEDDING_DIR / f"{record_id}_{MODEL_NAME}.npy"
 
 
-work_manifest = manifest.head(MAX_IMAGES).copy() if MAX_IMAGES else manifest.copy()
+work_manifest = manifest.copy()
 rows = []
 cached_count = 0
 new_count = 0
@@ -392,6 +439,11 @@ for start in tqdm(range(0, len(work_manifest), BATCH_SIZE), desc="Extracting emb
             embeddings = model(batch).detach().cpu().numpy()
 
         for row, embedding in zip(uncached_rows, embeddings):
+            if embedding.shape[-1] != EXPECTED_EMBEDDING_DIM:
+                raise ValueError(
+                    f"{MODEL_NAME} produced {embedding.shape[-1]} features; "
+                    f"expected {EXPECTED_EMBEDDING_DIM}."
+                )
             cache_path = embedding_path(row["record_id"])
             np.save(cache_path, embedding)
             rows.append({
@@ -404,7 +456,7 @@ for start in tqdm(range(0, len(work_manifest), BATCH_SIZE), desc="Extracting emb
             new_count += 1
 
 embedding_manifest = pd.DataFrame(rows)
-embedding_manifest_path = OUTPUT_DIR / "manifests" / f"{MODEL_NAME}_embedding_manifest.csv"
+embedding_manifest_path = CONFIG.embedding_manifest_path(MODEL_NAME)
 embedding_manifest.to_csv(embedding_manifest_path, index=False)
 
 print(f"Saved embedding manifest: {embedding_manifest_path}")
@@ -424,20 +476,25 @@ This converts cached embeddings into a flat CSV table:
     ),
     code(
         r"""
-feature_rows = []
+embedding_matrix = np.vstack([
+    np.load(path).ravel()
+    for path in tqdm(embedding_manifest["embedding_path"], desc="Loading cached embeddings")
+])
+if embedding_matrix.shape[1] != EXPECTED_EMBEDDING_DIM:
+    raise ValueError(
+        f"Deep matrix has {embedding_matrix.shape[1]} columns; "
+        f"expected {EXPECTED_EMBEDDING_DIM}."
+    )
 
-for _, row in tqdm(embedding_manifest.iterrows(), total=len(embedding_manifest), desc="Building feature table"):
-    embedding = np.load(row["embedding_path"]).ravel()
-    feature_row = {
-        "record_id": row["record_id"],
-        "label": row["label"],
-        "label_name": row["label_name"],
-    }
-    feature_row.update({f"eff_{i:04d}": float(value) for i, value in enumerate(embedding)})
-    feature_rows.append(feature_row)
-
-deep_feature_table = pd.DataFrame(feature_rows)
-deep_feature_path = FEATURE_DIR / f"{MODEL_NAME}_deep_features.csv"
+deep_columns = [f"eff_{i:04d}" for i in range(EXPECTED_EMBEDDING_DIM)]
+deep_feature_table = pd.concat(
+    [
+        embedding_manifest[["record_id", "label", "label_name"]].reset_index(drop=True),
+        pd.DataFrame(embedding_matrix, columns=deep_columns),
+    ],
+    axis=1,
+)
+deep_feature_path = CONFIG.deep_feature_path(MODEL_NAME)
 deep_feature_table.to_csv(deep_feature_path, index=False)
 
 print("Deep feature table shape:", deep_feature_table.shape)
@@ -454,10 +511,8 @@ This prepares the hybrid table. It expects the existing handcrafted CSV to conta
     ),
     code(
         r"""
-HANDCRAFTED_PATH = PROJECT_DIR / "ecg_dataset.csv"
-
+HANDCRAFTED_PATH = CONFIG.feature_dir / "enhanced_handcrafted_features.csv"
 handcrafted = pd.read_csv(HANDCRAFTED_PATH)
-handcrafted["record_id"] = handcrafted["filename"].astype(str).str.replace(".mat", "", regex=False)
 
 hybrid = handcrafted.merge(
     deep_feature_table.drop(columns=["label_name"]),
@@ -465,13 +520,15 @@ hybrid = handcrafted.merge(
     how="inner",
 )
 
-hybrid_path = FEATURE_DIR / f"hybrid_handcrafted_{MODEL_NAME}.csv"
+hybrid_path = CONFIG.hybrid_feature_path(MODEL_NAME)
 hybrid.to_csv(hybrid_path, index=False)
 
 print("Handcrafted shape:", handcrafted.shape)
 print("Deep shape:", deep_feature_table.shape)
 print("Hybrid shape:", hybrid.shape)
 print(f"Saved: {hybrid_path}")
+assert len(hybrid) == len(deep_feature_table), "Hybrid merge dropped records."
+assert len([c for c in hybrid.columns if c.startswith("eff_")]) == EXPECTED_EMBEDDING_DIM
 display(hybrid.head())
 """
     ),
@@ -494,6 +551,11 @@ The goal is to show whether deep feature extraction improves over the original b
     code(
         r"""
 from pathlib import Path
+import json
+import shutil
+import sys
+import time
+from datetime import datetime
 
 import joblib
 import numpy as np
@@ -523,19 +585,22 @@ except Exception:
     LIGHTGBM_AVAILABLE = False
 
 PROJECT_DIR = Path("..").resolve()
-FEATURE_DIR = PROJECT_DIR / "outputs" / "deep_features" / "features"
-RESULT_DIR = PROJECT_DIR / "outputs" / "deep_features" / "results"
-MODEL_DIR = PROJECT_DIR / "outputs" / "deep_features" / "models"
+SRC_DIR = PROJECT_DIR / "src"
+sys.path.insert(0, str(PROJECT_DIR))
+sys.path.insert(0, str(SRC_DIR))
 
-for path in [RESULT_DIR, MODEL_DIR]:
-    path.mkdir(parents=True, exist_ok=True)
+from artifacts import build_model_metadata, save_json
+from config import CONFIG
+from handcrafted_features_v2 import HANDCRAFTED_FEATURES
+from reproducibility import set_global_seed
 
 LABEL_MAP = {0: "Normal", 1: "Arrhythmia", 2: "Other / Unknown"}
-SEED = 42
-MODEL_NAME = "efficientnet_b0"
+MODEL_NAME = CONFIG.active_model_name
+seed_state = set_global_seed(CONFIG.seed)
 
 print("LightGBM available:", LIGHTGBM_AVAILABLE)
-print("Feature directory:", FEATURE_DIR)
+print("Feature directory:", CONFIG.feature_dir)
+print("Seed state:", seed_state)
 """
     ),
     md(
@@ -547,8 +612,8 @@ Run `04_efficientnet_embeddings.ipynb` first. It creates both the deep feature t
     ),
     code(
         r"""
-deep_path = FEATURE_DIR / f"{MODEL_NAME}_deep_features.csv"
-hybrid_path = FEATURE_DIR / f"hybrid_handcrafted_{MODEL_NAME}.csv"
+deep_path = CONFIG.deep_feature_path(MODEL_NAME)
+hybrid_path = CONFIG.hybrid_feature_path(MODEL_NAME)
 
 deep_df = pd.read_csv(deep_path)
 hybrid_df = pd.read_csv(hybrid_path)
@@ -560,16 +625,15 @@ display(hybrid_df.head())
     ),
     code(
         r"""
-DROP_HANDCRAFTED = {"filename", "record_id", "label", "label_name", "label_encoded"}
+DROP_HANDCRAFTED = {"filename", "record_id", "label", "label_name", "label_encoded", "age", "sex"}
 DROP_DEEP = {"record_id", "label", "label_name"}
 
 deep_cols = [c for c in deep_df.columns if c.startswith("eff_")]
-handcrafted_cols = [
-    c for c in hybrid_df.columns
-    if c not in DROP_HANDCRAFTED and not c.startswith("eff_")
-]
+handcrafted_cols = [c for c in HANDCRAFTED_FEATURES if c in hybrid_df.columns]
 hybrid_cols = handcrafted_cols + deep_cols
 
+assert len(handcrafted_cols) == len(HANDCRAFTED_FEATURES), "Missing enhanced handcrafted features."
+assert len(deep_cols) == CONFIG.model_embedding_dim(MODEL_NAME), "Unexpected deep embedding width."
 print("Handcrafted feature count:", len(handcrafted_cols))
 print("Deep feature count:", len(deep_cols))
 print("Hybrid feature count:", len(hybrid_cols))
@@ -587,8 +651,8 @@ All three experiments use the same records and same split so the comparison is f
 y = hybrid_df["label"].astype(int)
 train_idx, test_idx = train_test_split(
     hybrid_df.index,
-    test_size=0.20,
-    random_state=SEED,
+    test_size=CONFIG.test_size,
+    random_state=CONFIG.seed,
     stratify=y,
 )
 
@@ -610,15 +674,15 @@ def make_lgbm():
     if not LIGHTGBM_AVAILABLE:
         return None
     return LGBMClassifier(
-        n_estimators=350,
+        n_estimators=CONFIG.n_estimators,
         learning_rate=0.04,
         max_depth=7,
         num_leaves=31,
         subsample=0.9,
         colsample_bytree=0.9,
         class_weight="balanced",
-        random_state=SEED,
-        n_jobs=-1,
+        random_state=CONFIG.seed,
+        n_jobs=CONFIG.n_jobs,
         verbose=-1,
     )
 
@@ -626,11 +690,16 @@ def make_lgbm():
 def make_model(use_pca=False):
     classifier = make_lgbm()
     if classifier is None:
-        classifier = LogisticRegression(max_iter=3000, class_weight="balanced", random_state=SEED)
+        classifier = LogisticRegression(
+            max_iter=3000,
+            class_weight="balanced",
+            random_state=CONFIG.seed,
+            n_jobs=CONFIG.n_jobs,
+        )
 
     steps = [("scaler", StandardScaler())]
     if use_pca:
-        steps.append(("pca", PCA(n_components=0.95, random_state=SEED)))
+        steps.append(("pca", PCA(n_components=CONFIG.pca_components, random_state=CONFIG.seed)))
     steps.append(("classifier", classifier))
     return Pipeline(steps)
 
@@ -658,7 +727,7 @@ experiments = {
     ),
     code(
         r"""
-cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=SEED)
+cv = StratifiedKFold(n_splits=CONFIG.cv_folds, shuffle=True, random_state=CONFIG.seed)
 summary_rows = []
 trained_models = {}
 
@@ -667,13 +736,14 @@ for name, config in experiments.items():
     model = config["model"]
     X = hybrid_df[feature_cols].replace([np.inf, -np.inf], np.nan).fillna(0.0)
 
+    started = time.perf_counter()
     cv_results = cross_validate(
         model,
         X.iloc[train_idx],
         y.iloc[train_idx],
         cv=cv,
         scoring=["accuracy", "f1_macro", "f1_weighted"],
-        n_jobs=-1,
+        n_jobs=CONFIG.n_jobs,
     )
 
     model.fit(X.iloc[train_idx], y.iloc[train_idx])
@@ -704,10 +774,11 @@ for name, config in experiments.items():
         "test_macro_f1": f1_score(y.iloc[test_idx], pred, average="macro"),
         "test_weighted_f1": f1_score(y.iloc[test_idx], pred, average="weighted"),
         "test_auc_ovr_weighted": auc_ovr,
+        "runtime_seconds": time.perf_counter() - started,
     })
 
 results = pd.DataFrame(summary_rows).sort_values("test_macro_f1", ascending=False).reset_index(drop=True)
-results_path = RESULT_DIR / f"hybrid_comparison_{MODEL_NAME}.csv"
+results_path = CONFIG.result_dir / f"hybrid_comparison_{MODEL_NAME}.csv"
 results.to_csv(results_path, index=False)
 
 display(results)
@@ -728,7 +799,7 @@ plt.axvline(0.80, color="red", linestyle="--", label="0.80 target")
 plt.title("Held-Out Test Performance")
 plt.xlim(0, 1)
 plt.tight_layout()
-plt.savefig(RESULT_DIR / f"hybrid_comparison_{MODEL_NAME}.png", dpi=160)
+plt.savefig(CONFIG.result_dir / f"hybrid_comparison_{MODEL_NAME}.png", dpi=160)
 plt.show()
 """
     ),
@@ -751,7 +822,7 @@ report = classification_report(
     zero_division=0,
 )
 report_df = pd.DataFrame(report).T
-report_path = RESULT_DIR / f"best_model_classification_report_{MODEL_NAME}.csv"
+report_path = CONFIG.result_dir / f"best_model_classification_report_{MODEL_NAME}.csv"
 report_df.to_csv(report_path)
 
 cm = confusion_matrix(y.iloc[test_idx], best_pred, labels=sorted(y.unique()))
@@ -759,7 +830,7 @@ disp = ConfusionMatrixDisplay(cm, display_labels=[LABEL_MAP[i] for i in sorted(y
 disp.plot(cmap="Blues", values_format="d")
 plt.title(f"Best Model Confusion Matrix: {best_name}")
 plt.tight_layout()
-plt.savefig(RESULT_DIR / f"best_model_confusion_matrix_{MODEL_NAME}.png", dpi=160)
+plt.savefig(CONFIG.result_dir / f"best_model_confusion_matrix_{MODEL_NAME}.png", dpi=160)
 plt.show()
 
 display(report_df)
@@ -769,10 +840,55 @@ print(f"Saved report: {report_path}")
     ),
     code(
         r"""
-joblib.dump(best["model"], MODEL_DIR / f"best_hybrid_model_{MODEL_NAME}.pkl")
-joblib.dump(best["features"], MODEL_DIR / f"best_hybrid_feature_list_{MODEL_NAME}.pkl")
+def backup_if_exists(path):
+    if path.exists():
+        stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        backup = path.with_name(f"{path.stem}_{stamp}.bak{path.suffix}")
+        shutil.copy2(path, backup)
+        print(f"Backed up existing artifact: {backup}")
 
-print("Saved best model and feature list.")
+
+pipeline = best["model"]
+scaler = pipeline.named_steps["scaler"]
+pca = pipeline.named_steps.get("pca")
+classifier = pipeline.named_steps["classifier"]
+
+artifact_paths = [
+    CONFIG.model_artifact_path(MODEL_NAME),
+    CONFIG.feature_list_path(MODEL_NAME),
+    CONFIG.scaler_path(MODEL_NAME),
+    CONFIG.pca_path(MODEL_NAME),
+    CONFIG.metadata_path(MODEL_NAME),
+]
+for path in artifact_paths:
+    backup_if_exists(path)
+
+joblib.dump(classifier, CONFIG.model_artifact_path(MODEL_NAME))
+joblib.dump(best["features"], CONFIG.feature_list_path(MODEL_NAME))
+joblib.dump(scaler, CONFIG.scaler_path(MODEL_NAME))
+joblib.dump(pca, CONFIG.pca_path(MODEL_NAME))
+
+best_metrics = results.iloc[0].to_dict()
+per_class_recall = {
+    name: float(report[name]["recall"])
+    for name in [LABEL_MAP[i] for i in sorted(y.unique())]
+}
+metadata = build_model_metadata(
+    model_name=MODEL_NAME,
+    dataset_size=len(hybrid_df),
+    features=best["features"],
+    metrics={**best_metrics, "per_class_recall": per_class_recall},
+    seed=CONFIG.seed,
+    extra={
+        "best_experiment": best_name,
+        "embedding_dimension": CONFIG.model_embedding_dim(MODEL_NAME),
+        "target_size": list(CONFIG.model_target_size(MODEL_NAME)),
+        "split_method": "record-level stratified train_test_split",
+    },
+)
+save_json(metadata, CONFIG.metadata_path(MODEL_NAME))
+
+print("Saved versioned classifier, feature list, scaler, PCA, and metadata.")
 """
     ),
 ]

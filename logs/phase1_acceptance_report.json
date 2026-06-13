@@ -1,0 +1,78 @@
+{
+  "phase": 1,
+  "model_name": "efficientnet_b0",
+  "passed": true,
+  "checks": {
+    "manifest_exists": true,
+    "manifest_rows_300": true,
+    "all_manifest_images_exist": true,
+    "hybrid_exists": true,
+    "hybrid_rows_300": true,
+    "deep_feature_count_1280": true,
+    "comparison_results_exist": true
+  },
+  "observed": {
+    "manifest_path": "C:\\Users\\Admin\\Desktop\\Kshitiz\\healthcare project\\healthcare project\\outputs\\deep_features\\manifests\\scalogram_manifest_3ch_224.csv",
+    "manifest_columns": [
+      "record_id",
+      "mat_path",
+      "hea_path",
+      "image_path",
+      "label",
+      "label_name",
+      "age",
+      "sex",
+      "dx_codes",
+      "sampling_frequency",
+      "n_leads",
+      "n_samples",
+      "lead_indices",
+      "lead_names",
+      "image_height",
+      "image_width"
+    ],
+    "manifest_rows": 300,
+    "missing_images": 0,
+    "hybrid_rows": 300,
+    "hybrid_columns": 1302,
+    "deep_feature_columns": 1280,
+    "results_rows": [
+      {
+        "experiment": "efficientnet_only",
+        "feature_count": "1280",
+        "cv_accuracy_mean": "0.9041666666666667",
+        "cv_macro_f1_mean": "0.8159545298024206",
+        "cv_weighted_f1_mean": "0.9017873048763642",
+        "test_accuracy": "0.8833333333333333",
+        "test_macro_f1": "0.8000000000000002",
+        "test_weighted_f1": "0.8844444444444446",
+        "test_auc_ovr_weighted": "0.949647266313933",
+        "runtime_seconds": "0.3893386000127066"
+      },
+      {
+        "experiment": "hybrid_handcrafted_efficientnet",
+        "feature_count": "1297",
+        "cv_accuracy_mean": "0.8958333333333334",
+        "cv_macro_f1_mean": "0.78985079449359",
+        "cv_weighted_f1_mean": "0.8911966315141574",
+        "test_accuracy": "0.8833333333333333",
+        "test_macro_f1": "0.7833890746934227",
+        "test_weighted_f1": "0.8787179487179486",
+        "test_auc_ovr_weighted": "0.9485619318952653",
+        "runtime_seconds": "0.402642700006254"
+      },
+      {
+        "experiment": "handcrafted_only",
+        "feature_count": "17",
+        "cv_accuracy_mean": "0.8958333333333334",
+        "cv_macro_f1_mean": "0.822057163705804",
+        "cv_weighted_f1_mean": "0.8921775670676269",
+        "test_accuracy": "0.85",
+        "test_macro_f1": "0.773014823907091",
+        "test_weighted_f1": "0.8549649073112391",
+        "test_auc_ovr_weighted": "0.9420906254239586",
+        "runtime_seconds": "0.24946429999545217"
+      }
+    ]
+  }
+}

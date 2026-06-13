@@ -1,0 +1,42 @@
+# Python Virtual Environment
+venv/
+.venv/
+env/
+ENV/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Raw Datasets (wfdb recordings, MATLAB files, large datasets)
+*Dataset/
+*Dataset*
+*.mat
+*.hea
+*.dat
+*.hea
+ecg_dataset.csv
+
+# Large Model weights and serialized pipelines
+*.pkl
+*.pth
+*.h5
+*.onnx
+
+# Cache files and runtime outputs
+outputs/deep_features/scalograms_3ch_224/
+outputs/deep_features/embeddings/
+outputs/deep_features/models/
+predictions.csv
+validation_predictions.csv
+session_results.csv
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# IDE / System files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

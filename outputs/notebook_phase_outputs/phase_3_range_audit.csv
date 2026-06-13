@@ -1,0 +1,5 @@
+feature,expected_min,expected_max,below_min_count,above_max_count,total_flagged
+heart_rate,30,220,10,0,10
+age,0,120,55,0,55
+hrv,0,300,0,68,68
+rr_mean,200,2500,1405,0,1405

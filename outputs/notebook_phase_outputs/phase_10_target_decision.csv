@@ -1,0 +1,2 @@
+decision,accuracy,macro_f1,recommendation
+PASS,0.8521,0.8239,The model meets the target and can be used for the next phase: explainability and dashboard integration.

@@ -1,0 +1,9 @@
+feature,clinical_interpretation
+hrv,High value usually means rhythm irregularity; often important for arrhythmia separation.
+rr_mean,Captures beat spacing; strongly linked to rhythm timing.
+heart_rate,"Useful vital sign, but average BPM alone cannot fully diagnose arrhythmia."
+peak_count,Often redundant with heart rate because both measure beat frequency.
+std,Captures amplitude variability and signal strength.
+energy,Measures signal power; may reflect waveform amplitude and recording characteristics.
+skewness,Captures waveform asymmetry.
+kurtosis,Captures sharp peaks or heavy tails in the waveform.

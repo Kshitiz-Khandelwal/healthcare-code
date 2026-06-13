@@ -1,0 +1,8 @@
+phase,result,presentation_point
+Phase 1,Loaded ECG dataset,"45,152 rows available"
+Phase 3,Cleaned and audited data,"45,152 rows retained"
+Phase 4,Measured class imbalance,Majority class: Arrhythmia
+Phase 8,Compared models,Best CV model: LightGBM
+Phase 9,Evaluated final model,"Accuracy=0.852, Macro-F1=0.824"
+Phase 10,Checked target,PASS
+Phase 12,Stored predictions,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\notebook_phase_outputs\phase_12_test_predictions_for_next_phase.csv

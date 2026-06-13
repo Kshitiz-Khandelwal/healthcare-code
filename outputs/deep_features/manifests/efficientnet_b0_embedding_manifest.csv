@@ -1,0 +1,301 @@
+record_id,label,label_name,embedding_path,embedding_dim
+JS00001,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00001_efficientnet_b0.npy,1280
+JS00002,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00002_efficientnet_b0.npy,1280
+JS00004,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00004_efficientnet_b0.npy,1280
+JS00005,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00005_efficientnet_b0.npy,1280
+JS00006,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00006_efficientnet_b0.npy,1280
+JS00007,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00007_efficientnet_b0.npy,1280
+JS00008,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00008_efficientnet_b0.npy,1280
+JS00009,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00009_efficientnet_b0.npy,1280
+JS00010,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00010_efficientnet_b0.npy,1280
+JS00011,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00011_efficientnet_b0.npy,1280
+JS00012,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00012_efficientnet_b0.npy,1280
+JS00013,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00013_efficientnet_b0.npy,1280
+JS00014,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00014_efficientnet_b0.npy,1280
+JS00015,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00015_efficientnet_b0.npy,1280
+JS00016,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00016_efficientnet_b0.npy,1280
+JS00017,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00017_efficientnet_b0.npy,1280
+JS00018,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00018_efficientnet_b0.npy,1280
+JS00019,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00019_efficientnet_b0.npy,1280
+JS00020,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00020_efficientnet_b0.npy,1280
+JS00021,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00021_efficientnet_b0.npy,1280
+JS00022,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00022_efficientnet_b0.npy,1280
+JS00023,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00023_efficientnet_b0.npy,1280
+JS00024,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00024_efficientnet_b0.npy,1280
+JS00025,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00025_efficientnet_b0.npy,1280
+JS00026,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00026_efficientnet_b0.npy,1280
+JS00027,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00027_efficientnet_b0.npy,1280
+JS00029,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00029_efficientnet_b0.npy,1280
+JS00030,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00030_efficientnet_b0.npy,1280
+JS00031,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00031_efficientnet_b0.npy,1280
+JS00032,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00032_efficientnet_b0.npy,1280
+JS00033,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00033_efficientnet_b0.npy,1280
+JS00034,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00034_efficientnet_b0.npy,1280
+JS00036,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00036_efficientnet_b0.npy,1280
+JS00037,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00037_efficientnet_b0.npy,1280
+JS00038,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00038_efficientnet_b0.npy,1280
+JS00039,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00039_efficientnet_b0.npy,1280
+JS00040,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00040_efficientnet_b0.npy,1280
+JS00041,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00041_efficientnet_b0.npy,1280
+JS00042,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00042_efficientnet_b0.npy,1280
+JS00043,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00043_efficientnet_b0.npy,1280
+JS00044,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00044_efficientnet_b0.npy,1280
+JS00045,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00045_efficientnet_b0.npy,1280
+JS00046,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00046_efficientnet_b0.npy,1280
+JS00047,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00047_efficientnet_b0.npy,1280
+JS00048,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00048_efficientnet_b0.npy,1280
+JS00049,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00049_efficientnet_b0.npy,1280
+JS00050,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00050_efficientnet_b0.npy,1280
+JS00051,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00051_efficientnet_b0.npy,1280
+JS00052,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00052_efficientnet_b0.npy,1280
+JS00053,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00053_efficientnet_b0.npy,1280
+JS00054,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00054_efficientnet_b0.npy,1280
+JS00055,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00055_efficientnet_b0.npy,1280
+JS00056,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00056_efficientnet_b0.npy,1280
+JS00057,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00057_efficientnet_b0.npy,1280
+JS00058,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00058_efficientnet_b0.npy,1280
+JS00059,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00059_efficientnet_b0.npy,1280
+JS00060,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00060_efficientnet_b0.npy,1280
+JS00061,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00061_efficientnet_b0.npy,1280
+JS00062,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00062_efficientnet_b0.npy,1280
+JS00063,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00063_efficientnet_b0.npy,1280
+JS00064,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00064_efficientnet_b0.npy,1280
+JS00065,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00065_efficientnet_b0.npy,1280
+JS00066,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00066_efficientnet_b0.npy,1280
+JS00067,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00067_efficientnet_b0.npy,1280
+JS00068,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00068_efficientnet_b0.npy,1280
+JS00069,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00069_efficientnet_b0.npy,1280
+JS00070,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00070_efficientnet_b0.npy,1280
+JS00071,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00071_efficientnet_b0.npy,1280
+JS00072,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00072_efficientnet_b0.npy,1280
+JS00073,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00073_efficientnet_b0.npy,1280
+JS00074,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00074_efficientnet_b0.npy,1280
+JS00075,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00075_efficientnet_b0.npy,1280
+JS00076,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00076_efficientnet_b0.npy,1280
+JS00077,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00077_efficientnet_b0.npy,1280
+JS00078,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00078_efficientnet_b0.npy,1280
+JS00079,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00079_efficientnet_b0.npy,1280
+JS00080,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00080_efficientnet_b0.npy,1280
+JS00081,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00081_efficientnet_b0.npy,1280
+JS00082,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00082_efficientnet_b0.npy,1280
+JS00083,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00083_efficientnet_b0.npy,1280
+JS00084,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00084_efficientnet_b0.npy,1280
+JS00085,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00085_efficientnet_b0.npy,1280
+JS00086,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00086_efficientnet_b0.npy,1280
+JS00087,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00087_efficientnet_b0.npy,1280
+JS00088,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00088_efficientnet_b0.npy,1280
+JS00089,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00089_efficientnet_b0.npy,1280
+JS00090,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00090_efficientnet_b0.npy,1280
+JS00091,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00091_efficientnet_b0.npy,1280
+JS00092,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00092_efficientnet_b0.npy,1280
+JS00093,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00093_efficientnet_b0.npy,1280
+JS00094,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00094_efficientnet_b0.npy,1280
+JS00095,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00095_efficientnet_b0.npy,1280
+JS00096,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00096_efficientnet_b0.npy,1280
+JS00097,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00097_efficientnet_b0.npy,1280
+JS00099,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00099_efficientnet_b0.npy,1280
+JS00100,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00100_efficientnet_b0.npy,1280
+JS00101,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00101_efficientnet_b0.npy,1280
+JS00102,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00102_efficientnet_b0.npy,1280
+JS00103,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00103_efficientnet_b0.npy,1280
+JS00104,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00104_efficientnet_b0.npy,1280
+JS00105,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00105_efficientnet_b0.npy,1280
+JS00106,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00106_efficientnet_b0.npy,1280
+JS00107,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00107_efficientnet_b0.npy,1280
+JS00108,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00108_efficientnet_b0.npy,1280
+JS00109,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00109_efficientnet_b0.npy,1280
+JS00110,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00110_efficientnet_b0.npy,1280
+JS00111,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00111_efficientnet_b0.npy,1280
+JS00112,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00112_efficientnet_b0.npy,1280
+JS00113,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00113_efficientnet_b0.npy,1280
+JS00114,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00114_efficientnet_b0.npy,1280
+JS00115,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00115_efficientnet_b0.npy,1280
+JS00116,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00116_efficientnet_b0.npy,1280
+JS00117,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00117_efficientnet_b0.npy,1280
+JS00118,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00118_efficientnet_b0.npy,1280
+JS00119,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00119_efficientnet_b0.npy,1280
+JS00120,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00120_efficientnet_b0.npy,1280
+JS00121,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00121_efficientnet_b0.npy,1280
+JS00122,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00122_efficientnet_b0.npy,1280
+JS00123,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00123_efficientnet_b0.npy,1280
+JS00124,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00124_efficientnet_b0.npy,1280
+JS00125,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00125_efficientnet_b0.npy,1280
+JS00126,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00126_efficientnet_b0.npy,1280
+JS00127,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00127_efficientnet_b0.npy,1280
+JS00128,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00128_efficientnet_b0.npy,1280
+JS00129,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00129_efficientnet_b0.npy,1280
+JS00130,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00130_efficientnet_b0.npy,1280
+JS00131,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00131_efficientnet_b0.npy,1280
+JS00132,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00132_efficientnet_b0.npy,1280
+JS00133,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00133_efficientnet_b0.npy,1280
+JS00134,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00134_efficientnet_b0.npy,1280
+JS00137,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00137_efficientnet_b0.npy,1280
+JS00138,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00138_efficientnet_b0.npy,1280
+JS00139,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00139_efficientnet_b0.npy,1280
+JS00140,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00140_efficientnet_b0.npy,1280
+JS00141,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00141_efficientnet_b0.npy,1280
+JS00142,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00142_efficientnet_b0.npy,1280
+JS00143,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00143_efficientnet_b0.npy,1280
+JS00144,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00144_efficientnet_b0.npy,1280
+JS00145,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00145_efficientnet_b0.npy,1280
+JS00146,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00146_efficientnet_b0.npy,1280
+JS00147,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00147_efficientnet_b0.npy,1280
+JS00148,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00148_efficientnet_b0.npy,1280
+JS00150,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00150_efficientnet_b0.npy,1280
+JS00151,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00151_efficientnet_b0.npy,1280
+JS00152,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00152_efficientnet_b0.npy,1280
+JS00153,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00153_efficientnet_b0.npy,1280
+JS00154,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00154_efficientnet_b0.npy,1280
+JS00155,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00155_efficientnet_b0.npy,1280
+JS00156,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00156_efficientnet_b0.npy,1280
+JS00157,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00157_efficientnet_b0.npy,1280
+JS00158,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00158_efficientnet_b0.npy,1280
+JS00159,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00159_efficientnet_b0.npy,1280
+JS00160,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00160_efficientnet_b0.npy,1280
+JS00161,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00161_efficientnet_b0.npy,1280
+JS00162,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00162_efficientnet_b0.npy,1280
+JS00163,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00163_efficientnet_b0.npy,1280
+JS00164,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00164_efficientnet_b0.npy,1280
+JS00165,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00165_efficientnet_b0.npy,1280
+JS00166,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00166_efficientnet_b0.npy,1280
+JS00167,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00167_efficientnet_b0.npy,1280
+JS00168,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00168_efficientnet_b0.npy,1280
+JS00169,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00169_efficientnet_b0.npy,1280
+JS00170,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00170_efficientnet_b0.npy,1280
+JS00171,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00171_efficientnet_b0.npy,1280
+JS00172,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00172_efficientnet_b0.npy,1280
+JS00173,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00173_efficientnet_b0.npy,1280
+JS00174,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00174_efficientnet_b0.npy,1280
+JS00175,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00175_efficientnet_b0.npy,1280
+JS00176,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00176_efficientnet_b0.npy,1280
+JS00177,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00177_efficientnet_b0.npy,1280
+JS00178,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00178_efficientnet_b0.npy,1280
+JS00179,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00179_efficientnet_b0.npy,1280
+JS00180,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00180_efficientnet_b0.npy,1280
+JS00181,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00181_efficientnet_b0.npy,1280
+JS00182,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00182_efficientnet_b0.npy,1280
+JS00183,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00183_efficientnet_b0.npy,1280
+JS00184,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00184_efficientnet_b0.npy,1280
+JS00185,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00185_efficientnet_b0.npy,1280
+JS00186,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00186_efficientnet_b0.npy,1280
+JS00187,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00187_efficientnet_b0.npy,1280
+JS00188,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00188_efficientnet_b0.npy,1280
+JS00189,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00189_efficientnet_b0.npy,1280
+JS00190,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00190_efficientnet_b0.npy,1280
+JS00191,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00191_efficientnet_b0.npy,1280
+JS00192,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00192_efficientnet_b0.npy,1280
+JS00193,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00193_efficientnet_b0.npy,1280
+JS00194,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00194_efficientnet_b0.npy,1280
+JS00195,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00195_efficientnet_b0.npy,1280
+JS00196,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00196_efficientnet_b0.npy,1280
+JS00197,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00197_efficientnet_b0.npy,1280
+JS00198,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00198_efficientnet_b0.npy,1280
+JS00199,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00199_efficientnet_b0.npy,1280
+JS00200,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00200_efficientnet_b0.npy,1280
+JS00201,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00201_efficientnet_b0.npy,1280
+JS00202,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00202_efficientnet_b0.npy,1280
+JS00203,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00203_efficientnet_b0.npy,1280
+JS00204,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00204_efficientnet_b0.npy,1280
+JS00205,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00205_efficientnet_b0.npy,1280
+JS00206,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00206_efficientnet_b0.npy,1280
+JS00207,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00207_efficientnet_b0.npy,1280
+JS00208,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00208_efficientnet_b0.npy,1280
+JS00209,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00209_efficientnet_b0.npy,1280
+JS00210,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00210_efficientnet_b0.npy,1280
+JS00211,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00211_efficientnet_b0.npy,1280
+JS00212,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00212_efficientnet_b0.npy,1280
+JS00213,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00213_efficientnet_b0.npy,1280
+JS00215,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00215_efficientnet_b0.npy,1280
+JS00216,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00216_efficientnet_b0.npy,1280
+JS00217,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00217_efficientnet_b0.npy,1280
+JS00218,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00218_efficientnet_b0.npy,1280
+JS00219,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00219_efficientnet_b0.npy,1280
+JS00220,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00220_efficientnet_b0.npy,1280
+JS00221,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00221_efficientnet_b0.npy,1280
+JS00222,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00222_efficientnet_b0.npy,1280
+JS00223,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00223_efficientnet_b0.npy,1280
+JS00224,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00224_efficientnet_b0.npy,1280
+JS00225,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00225_efficientnet_b0.npy,1280
+JS00226,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00226_efficientnet_b0.npy,1280
+JS00227,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00227_efficientnet_b0.npy,1280
+JS00228,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00228_efficientnet_b0.npy,1280
+JS00229,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00229_efficientnet_b0.npy,1280
+JS00230,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00230_efficientnet_b0.npy,1280
+JS00231,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00231_efficientnet_b0.npy,1280
+JS00232,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00232_efficientnet_b0.npy,1280
+JS00233,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00233_efficientnet_b0.npy,1280
+JS00234,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00234_efficientnet_b0.npy,1280
+JS00235,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00235_efficientnet_b0.npy,1280
+JS00236,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00236_efficientnet_b0.npy,1280
+JS00237,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00237_efficientnet_b0.npy,1280
+JS00238,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00238_efficientnet_b0.npy,1280
+JS00239,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00239_efficientnet_b0.npy,1280
+JS00240,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00240_efficientnet_b0.npy,1280
+JS00241,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00241_efficientnet_b0.npy,1280
+JS00242,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00242_efficientnet_b0.npy,1280
+JS00243,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00243_efficientnet_b0.npy,1280
+JS00244,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00244_efficientnet_b0.npy,1280
+JS00245,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00245_efficientnet_b0.npy,1280
+JS00247,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00247_efficientnet_b0.npy,1280
+JS00248,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00248_efficientnet_b0.npy,1280
+JS00249,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00249_efficientnet_b0.npy,1280
+JS00250,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00250_efficientnet_b0.npy,1280
+JS00251,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00251_efficientnet_b0.npy,1280
+JS00252,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00252_efficientnet_b0.npy,1280
+JS00253,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00253_efficientnet_b0.npy,1280
+JS00254,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00254_efficientnet_b0.npy,1280
+JS00255,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00255_efficientnet_b0.npy,1280
+JS00256,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00256_efficientnet_b0.npy,1280
+JS00257,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00257_efficientnet_b0.npy,1280
+JS00258,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00258_efficientnet_b0.npy,1280
+JS00259,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00259_efficientnet_b0.npy,1280
+JS00260,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00260_efficientnet_b0.npy,1280
+JS00261,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00261_efficientnet_b0.npy,1280
+JS00262,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00262_efficientnet_b0.npy,1280
+JS00263,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00263_efficientnet_b0.npy,1280
+JS00264,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00264_efficientnet_b0.npy,1280
+JS00265,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00265_efficientnet_b0.npy,1280
+JS00266,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00266_efficientnet_b0.npy,1280
+JS00267,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00267_efficientnet_b0.npy,1280
+JS00268,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00268_efficientnet_b0.npy,1280
+JS00269,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00269_efficientnet_b0.npy,1280
+JS00270,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00270_efficientnet_b0.npy,1280
+JS00271,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00271_efficientnet_b0.npy,1280
+JS00272,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00272_efficientnet_b0.npy,1280
+JS00273,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00273_efficientnet_b0.npy,1280
+JS00274,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00274_efficientnet_b0.npy,1280
+JS00276,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00276_efficientnet_b0.npy,1280
+JS00277,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00277_efficientnet_b0.npy,1280
+JS00278,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00278_efficientnet_b0.npy,1280
+JS00279,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00279_efficientnet_b0.npy,1280
+JS00280,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00280_efficientnet_b0.npy,1280
+JS00281,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00281_efficientnet_b0.npy,1280
+JS00282,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00282_efficientnet_b0.npy,1280
+JS00283,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00283_efficientnet_b0.npy,1280
+JS00284,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00284_efficientnet_b0.npy,1280
+JS00285,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00285_efficientnet_b0.npy,1280
+JS00286,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00286_efficientnet_b0.npy,1280
+JS00287,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00287_efficientnet_b0.npy,1280
+JS00288,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00288_efficientnet_b0.npy,1280
+JS00289,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00289_efficientnet_b0.npy,1280
+JS00290,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00290_efficientnet_b0.npy,1280
+JS00291,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00291_efficientnet_b0.npy,1280
+JS00292,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00292_efficientnet_b0.npy,1280
+JS00293,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00293_efficientnet_b0.npy,1280
+JS00294,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00294_efficientnet_b0.npy,1280
+JS00295,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00295_efficientnet_b0.npy,1280
+JS00296,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00296_efficientnet_b0.npy,1280
+JS00297,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00297_efficientnet_b0.npy,1280
+JS00298,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00298_efficientnet_b0.npy,1280
+JS00299,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00299_efficientnet_b0.npy,1280
+JS00300,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00300_efficientnet_b0.npy,1280
+JS00301,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00301_efficientnet_b0.npy,1280
+JS00302,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00302_efficientnet_b0.npy,1280
+JS00303,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00303_efficientnet_b0.npy,1280
+JS00304,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00304_efficientnet_b0.npy,1280
+JS00305,2,Other / Unknown,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00305_efficientnet_b0.npy,1280
+JS00306,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00306_efficientnet_b0.npy,1280
+JS00307,0,Normal,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00307_efficientnet_b0.npy,1280
+JS00308,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00308_efficientnet_b0.npy,1280
+JS00309,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00309_efficientnet_b0.npy,1280
+JS00310,1,Arrhythmia,C:\Users\Admin\Desktop\Kshitiz\healthcare project\healthcare project\outputs\deep_features\embeddings\efficientnet_b0\JS00310_efficientnet_b0.npy,1280
