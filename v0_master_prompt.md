@@ -1,442 +1,136 @@
 # V0.DEV MASTER PROMPT — ECG Hybrid Classification Dashboard & Report
 
-Build a **premium, modern, dark-themed single-page medical dashboard web application** using **Next.js + Tailwind CSS + shadcn/ui + Recharts**. This is a clinical ECG classification report/dashboard that showcases a machine learning pipeline for 12-lead ECG classification. It should look like a polished medical-tech SaaS product — professional enough to present to university professors.
+Build a **premium, modern, dark-themed single-page medical dashboard web application** using **Next.js + Tailwind CSS + shadcn/ui + Recharts**. This is a clinical ECG classification report/dashboard that showcases a machine learning pipeline for 12-lead ECG classification. It should look like a polished medical-tech SaaS product — professional enough to present to university professors and external evaluators.
 
 ---
 
 ## 🎨 DESIGN CONSTRAINTS
 
-1. **Theme**: Dark mode primary (`#0a0a0f` background), with accent colors:
-   - Green for Normal: `#22c55e`
-   - Red for Arrhythmia: `#ef4444`
-   - Blue for Other/Unknown: `#3b82f6`
-   - Gold/Amber for highlights: `#f59e0b`
-   - Purple gradient accents: `#8b5cf6` → `#6366f1`
-2. **Typography**: Use `Inter` font from Google Fonts. Clean, medical-tech aesthetic.
-3. **Layout**: Full-width responsive layout. Use a **scrollable single-page** design with distinct sections separated by subtle dividers. Include a sticky top navigation bar with smooth scroll links to each section.
-4. **Cards**: Use glassmorphism cards (`backdrop-blur-xl`, semi-transparent backgrounds `bg-white/5`, subtle borders `border-white/10`).
-5. **Animations**: Subtle fade-in-up animations on scroll (use Framer Motion or CSS `@keyframes`). Animated number counters for key metrics. Pulse animation on risk badges.
-6. **No placeholder images**: Use SVG icons and CSS-generated visuals (gradients, patterns) instead of placeholder images.
-7. **Mobile responsive**: Must look good on both desktop and mobile.
+1. **Theme**: Dark mode primary (`#020617` background, slate/zinc base), with accent colors:
+   - Green for Normal: `#10b981` (emerald-500)
+   - Red for Arrhythmia: `#ef4444` (red-500)
+   - Blue for Other/Unknown: `#3b82f6` (blue-500)
+   - Gold/Amber for highlights: `#f59e0b` (amber-500)
+   - Purple gradient accents: `#8b5cf6` → `#6366f1` (violet to indigo)
+2. **Typography**: Use `Outfit` or `Inter` font. Clean, modern, medical-tech aesthetic.
+3. **Layout**: Full-width responsive layout. Use a **scrollable single-page** design with distinct sections separated by subtle borders. Include a sticky top navigation bar with smooth scroll links to each section, a status badge for the live deployment, and brand styling.
+4. **Cards**: Use glassmorphism cards (`backdrop-blur-xl`, semi-transparent backgrounds `bg-slate-900/50`, subtle borders `border-white/10`).
+5. **Animations**: Smooth micro-interactions, subtle fade-in-up animations on scroll (using Framer Motion), animated number counters for key metrics, and pulse animation on risk badges.
+6. **Visual Assets**: Use Lucide React icons, inline SVGs for flowcharts, and CSS gradients. No generic placeholders.
+7. **Production Link**: Visibly display the live Vercel deployment link: **[https://healthcare-code-2azi-lime.vercel.app/](https://healthcare-code-2azi-lime.vercel.app/)** with a green pulse dot indicating "Live Deployment".
 
 ---
 
 ## 📐 PAGE STRUCTURE (Sections in Order)
 
-### SECTION 1: Hero / Header
-A full-width hero banner with:
+### 1. Sticky Navigation Bar
+- Left: Brand Logo + **"ShieldPulse ECG"**
+- Middle: Anchors for `Home`, `Pipeline`, `Features`, `Performance`, `Dataset`, `Timeline`
+- Right: Live deployment badge: `[🟢 Live on Vercel: https://healthcare-code-2azi-lime.vercel.app/]`
+
+### 2. SECTION 1: Hero / Header
 - Title: **"ECG Hybrid Classification System"**
 - Subtitle: **"Automated 12-Lead ECG Analysis using Deep Learning + Clinical Feature Fusion"**
 - Three large animated metric cards in a row:
-  - **92.0%** Accuracy
+  - **92.0%** Accuracy (with upgrade indicator: "+3.7% vs. B0 Prototype")
   - **89.5%** Macro-F1 Score
   - **97.1%** AUC (ROC)
-- A small badge: "EfficientNet-B4 + LightGBM | 1000 Records | PhysioNet 2020 Dataset"
-- Smooth gradient background (dark purple to dark blue)
+- Description block: "EfficientNet-B4 + LightGBM | 1,000 Records | PhysioNet 2020 Georgia/South-Asian Cohort"
 
----
+### 3. SECTION 2: Pipeline Architecture
+Visual flowchart showing the pipeline stages:
+`[Raw ECG Ingestion] ──▶ [Signal Preprocessing] ──▶ [Dual Feature Extraction] ──▶ [Feature Fusion & PCA] ──▶ [LightGBM Classifier] ──▶ [Risk Override & Explanation]`
 
-### SECTION 2: Pipeline Architecture
-A visual flowchart/diagram showing the pipeline stages. Use styled cards connected by arrows/lines (CSS-drawn or SVG). The stages are:
+Each stage card is interactive, showing:
+1. **Raw ECG Ingestion**: MATLAB `.mat` files + `.hea` headers, 12-lead ECG, 500 Hz, 10-second recordings.
+2. **Signal Preprocessing**: 4th-order Butterworth bandpass filter (0.5–40 Hz), Z-score normalization, selecting Leads I, II, V5.
+3. **Dual Feature Extraction**: 17 handcrafted clinical HRV features + 1792 deep CNN features from Continuous Wavelet Transform (CWT) scalograms.
+4. **Feature Fusion & PCA**: StandardScaler normalization, compressing 1792 deep features to 30 PCA components (49 total features).
+5. **LightGBM Classifier**: 150 estimators, learning rate = 0.05, 3-fold stratified cross-validation.
+6. **Risk Override & XAI**: Post-processing rules (bradycardia/tachycardia checks) + Gemma LLM natural language explanations.
 
-```
-[Raw ECG Records] → [Signal Preprocessing] → [Dual Feature Extraction] → [Feature Fusion] → [LightGBM Classifier] → [Prediction + Risk]
-```
+### 4. SECTION 3: Feature Extraction Deep Dive
+Two columns:
+*   **Left Column: Handcrafted Features (17 Dimensions)**:
+    Show a tabular card with the features extracted from Lead II:
+    - *Statistical*: `mean`, `std`, `max`, `min` (amplitudes), `energy` (L2 norm), `zero_crossings` (frequency proxy), `skewness`, `kurtosis` (waveform shapes), `peak_count`.
+    - *Heart Rate Variability (HRV)*: `heart_rate` (BPM), `rr_mean` (beat spacing in ms), `hrv`/`sdnn` (variability), `rmssd` (parasympathetic activity), `pnn50` (short-term swings), `rr_range`, `rr_cv`.
+*   **Right Column: Deep CNN Features (1792 Dimensions)**:
+    Show a step-by-step visual stack:
+    1. *CWT Scalogram*: 3 leads (I, II, V5) transformed using a Complex Morlet wavelet (`cmor1.5-1.0`) and stacked as Red, Green, and Blue channels into a 380×380×3 image.
+    2. *EfficientNet-B4*: Stacked scalogram passed through pre-trained backbone, classification head replaced with `Identity()`, capturing a 1792-dimensional vector.
+    3. *PCA Compression*: Compressed to 30 principal components to avoid overfitting on 1,000 records.
 
-Each stage card should be clickable/expandable showing brief details:
+### 5. SECTION 4: Model Performance Dashboard
+- **Row 1**: Heatmap representation of the Confusion Matrix:
+  
+  | Actual \ Predicted | Predicted Normal (Class 0) | Predicted Arrhythmia (Class 1) | Predicted Other (Class 2) | Support |
+  | :--- | :---: | :---: | :---: | :---: |
+  | **Normal** | **95** (Green) | 28 (Orange) | 8 (Red) | 131 |
+  | **Arrhythmia** | 38 (Orange) | **418** (Green) | 22 (Orange) | 478 |
+  | **Other** | 14 (Red) | 20 (Orange) | **157** (Green) | 191 |
 
-1. **Raw ECG Records**
-   - Format: MATLAB `.mat` files + `.hea` header files
-   - 12-lead standard ECG, 500 Hz sampling rate
-   - ~10 second recordings (12 × 5000 matrix)
-   - Source: PhysioNet/CinC Challenge 2020
+- **Row 2**: Table of Per-Class Performance:
+  
+  | Class | Precision | Recall (Sensitivity) | F1-Score | Support |
+  | :--- | :---: | :---: | :---: | :---: |
+  | Normal | 92.9% | 74.3% | 82.5% | 35 |
+  | Arrhythmia | 92.9% | 95.6% | 94.2% | 136 |
+  | Other / Unknown | 87.5% | 96.6% | 91.8% | 29 |
+  | **Weighted Avg** | **92.1%** | **92.0%** | **91.8%** | **200** |
 
-2. **Signal Preprocessing**
-   - Butterworth 4th-order bandpass filter (0.5–40 Hz)
-   - Zero-phase forward-backward filtering (no time distortion)
-   - Z-score normalization (zero mean, unit variance)
-   - Selected leads: Lead I, Lead II, Lead V5
+- **Row 3**: Grouped Bar Chart of Feature Strategies:
+  
+  | Strategy | Features | CV Accuracy | Test Accuracy | Test Macro-F1 | AUC |
+  | :--- | :---: | :---: | :---: | :---: | :---: |
+  | Handcrafted Only | 17 | 92.9% | 91.0% | 87.9% | 96.0% |
+  | EfficientNet Only | 1792 | 88.4% | 92.0% | 89.5% | 97.1% |
+  | Hybrid (Fused) | 1809 | 88.3% | 92.0% | 89.3% | 96.5% |
 
-3. **Dual Feature Extraction** (splits into two branches shown visually)
+### 6. SECTION 5: Research & Prototyping Timeline
+Create an interactive timeline displaying our workflow and explain the transition from Jupyter Notebooks to production:
+1. **Phase 1: Exploratory Research (Jupyter)**: Used notebooks (`ecg_analysis_phase_workflow.ipynb`) to test filter frequencies (0.5–40 Hz) and inspect R-peaks visually using matplotlib.
+2. **Phase 2: B0 Baseline Prototype**: Programmed `03_preprocessing_and_scalograms.ipynb` and `04_efficientnet_embeddings.ipynb` to generate 224×224 scalograms and 1280-dimensional embeddings from 300 records.
+3. **Phase 3: Production Training (B4)**: Expanded to 1,000 records, upgraded to $380 \times 380$ scalograms with an EfficientNet-B4 backbone (1792-dimensional embeddings). Saved versioned models.
+4. **Phase 4: Modular Migration**: Extracted notebook code into production modules (`src/preprocessing.py`, `src/scalogram.py`, `src/hybrid_predictor.py`) and implemented the `predict.py` command-line utility.
+5. **Phase 5: Vercel Deployment**: Deployed the dashboard locally and hosted it live on Vercel at `https://healthcare-code-2azi-lime.vercel.app/`.
 
-4. **Feature Fusion**
-   - Concatenation: 17 handcrafted + 1792 deep + 2 demographic = 1811 features
-   - StandardScaler → PCA (30 components)
+### 7. SECTION 6: Model Artifacts & Integrity Checks
+Show a card explaining the model files saved in the registry and the integrity validation logic:
+- `best_hybrid_model_efficientnet_b4.pkl` (LightGBM, 1.3 MB)
+- `scaler_efficientnet_b4.pkl` (StandardScaler, 62 KB)
+- `pca_efficientnet_b4.pkl` (PCA transformer, 436 KB)
+- `best_hybrid_feature_list_efficientnet_b4.pkl` (Ordered columns, 19 KB)
+- `model_metadata_efficientnet_b4.json` (Birth metadata, 1 KB)
+- **SHA256 Integrity Safeguard**: The metadata JSON houses `feature_list_hash`. During prediction, the system recomputes the SHA256 of the loaded feature schema. If they do not match, the pipeline aborts to prevent corrupted predictions due to mismatched versions.
 
-5. **LightGBM Classifier**
-   - 150 estimators, 3-fold stratified CV, seed=42
-   - 80/20 train-test split
+### 8. SECTION 7: Patient Risk Logic & Override Rules
+Visual flowchart representing the risk classification:
+- `Arrhythmia` + confidence $\ge$ 85% $\implies$ **🔴 HIGH Risk**
+- `Arrhythmia` + confidence < 85% $\implies$ **🟡 MEDIUM Risk**
+- `Other` + confidence $\ge$ 80% $\implies$ **🟡 MEDIUM Risk**
+- `Normal` $\implies$ **🟢 LOW Risk**
+- **Vitals Override**: If heart rate is abnormal ($HR < 40$ or $HR > 120$ BPM), escalate the risk level by one step (e.g., LOW $\to$ MEDIUM, MEDIUM $\to$ HIGH) regardless of prediction confidence, ensuring clinical safety.
 
-6. **Prediction Output**
-   - Class: Normal / Arrhythmia / Other
-   - Confidence percentage
-   - Risk level: LOW / MEDIUM / HIGH
+### 9. SECTION 8: Live Interactive Patient Tables
+A sortable table showing real predictions from the model:
+- JS00001: Arrhythmia | 98.6% Conf | HIGH Risk | 114 BPM (Warning) | Age 85 | Male | 0.360s
+- JS00002: Arrhythmia | 97.8% Conf | HIGH Risk | 96 BPM | Age 59 | Female | 0.336s
+- JS00004: Arrhythmia | 99.9% Conf | HIGH Risk | 102 BPM (Warning) | Age 66 | Male | 0.343s
+- JS00005: Arrhythmia | 97.4% Conf | HIGH Risk | 162 BPM (Warning) | Age 73 | Female | 0.363s
+- JS00008: Normal | 97.6% Conf | LOW Risk | 66 BPM | Age 46 | Male | 0.322s
 
----
-
-### SECTION 3: Feature Extraction Deep Dive
-
-Split into two side-by-side panels:
-
-#### LEFT PANEL: "🧮 Handcrafted Features (17 Dimensions)"
-A styled table showing all 17 features with their descriptions:
-
-| # | Feature | Category | Description |
-|---|---------|----------|-------------|
-| 1 | `mean` | Statistical | Average voltage of the signal |
-| 2 | `std` | Statistical | Standard deviation — signal variability |
-| 3 | `max` | Statistical | Maximum voltage (R-peak amplitude) |
-| 4 | `min` | Statistical | Minimum voltage (S-wave depth) |
-| 5 | `energy` | Statistical | Sum of squared values (∑x²) |
-| 6 | `zero_crossings` | Statistical | How often signal crosses zero |
-| 7 | `skewness` | Statistical | Asymmetry of the distribution |
-| 8 | `kurtosis` | Statistical | Peakedness of distribution |
-| 9 | `peak_count` | Statistical | Number of detected R-peaks |
-| 10 | `heart_rate` | HRV | Beats per minute (BPM) |
-| 11 | `rr_mean` | HRV | Mean R-R interval (ms) |
-| 12 | `hrv` | HRV | Standard deviation of R-R intervals |
-| 13 | `sdnn` | HRV | Std of NN intervals (autonomic health) |
-| 14 | `rmssd` | HRV | Root mean square of successive differences |
-| 15 | `pnn50` | HRV | % of successive R-R diffs > 50ms |
-| 16 | `rr_range` | HRV | Max R-R minus Min R-R interval |
-| 17 | `rr_cv` | HRV | Coefficient of variation of R-R |
-
-Show a small badge: "Extracted from Lead II using scipy.signal.find_peaks"
-
-#### RIGHT PANEL: "🧠 Deep CNN Features (1792 Dimensions)"
-Show a visual explanation with three stacked steps:
-
-**Step 1: CWT Scalogram Generation**
-- Transform 1D ECG signal → 2D time-frequency image
-- Wavelet: Complex Morlet (`cmor1.5-1.0`)
-- 3 leads (I, II, V5) → 3 grayscale images → stacked as RGB channels
-- Output: 380×380×3 RGB image
-
-**Step 2: EfficientNet-B4 Embedding**
-- Pretrained on ImageNet (transfer learning)
-- Classification head removed → replaced with Identity
-- Global Average Pooling → 1792-dimension vector
-- Frozen weights (no fine-tuning)
-
-**Step 3: PCA Compression**
-- 1792 dimensions → 30 principal components
-- Prevents overfitting on small dataset (1000 records)
-
-Show a small badge: "Using torchvision.models.efficientnet_b4"
-
----
-
-### SECTION 4: Model Performance Dashboard
-
-#### Row 1: Four metric cards
-- **Accuracy**: 92.0% (with a small green up-arrow and "from 88.3% B0 prototype")
-- **Macro-F1**: 89.5%
-- **Weighted-F1**: 91.8%
-- **AUC (weighted OvR)**: 97.1%
-
-#### Row 2: Confusion Matrix Heatmap
-Build an interactive confusion matrix heatmap using Recharts or a custom grid. The actual values are:
-
-|  | Predicted Normal | Predicted Arrhythmia | Predicted Other |
-|--|-----------------|---------------------|----------------|
-| **Actual Normal** (n=131) | **95** | 28 | 8 |
-| **Actual Arrhythmia** (n=478) | 38 | **418** | 22 |
-| **Actual Other** (n=191) | 14 | 20 | **157** |
-
-- Diagonal cells (correct predictions) should be bright green
-- Off-diagonal cells should be shades of red/orange based on error magnitude
-- Show percentages on hover
-- Total test samples: 800
-
-#### Row 3: Per-Class Performance Table (from the 200-sample held-out test set)
-
-| Class | Precision | Recall | F1-Score | Support |
-|-------|-----------|--------|----------|---------|
-| Normal | 92.9% | 74.3% | 82.5% | 35 |
-| Arrhythmia | 92.9% | 95.6% | 94.2% | 136 |
-| Other / Unknown | 87.5% | 96.6% | 91.8% | 29 |
-| **Weighted Avg** | **92.1%** | **92.0%** | **91.8%** | **200** |
-
-#### Row 4: Feature Strategy Comparison (Bar Chart)
-
-Show a grouped bar chart comparing three strategies tested during development:
-
-| Strategy | Features | CV Accuracy | Test Accuracy | Test Macro-F1 | AUC |
-|----------|----------|-------------|---------------|---------------|-----|
-| Handcrafted Only | 17 | 92.9% | 91.0% | 87.9% | 96.0% |
-| EfficientNet Only | 1792 | 88.4% | **92.0%** | **89.5%** | **97.1%** |
-| Hybrid (both) | 1809 | 88.3% | 92.0% | 89.3% | 96.5% |
-
-Add a small annotation: "EfficientNet-only selected as best strategy based on test Macro-F1 and AUC"
-
----
-
-### SECTION 5: Prototype vs Production Comparison
-
-A side-by-side comparison card showing the evolution from prototype to production:
-
-| Metric | Phase 1: B0 Prototype | Phase 2: B4 Production | Improvement |
-|--------|----------------------|------------------------|-------------|
-| Backbone | EfficientNet-B0 | EfficientNet-B4 | Deeper network |
-| Dataset | 300 records | 1000 records | +233% |
-| Scalogram Size | 224×224 | 380×380 | +2.88× pixels |
-| Embedding Dim | 1280 | 1792 | +40% |
-| Accuracy | 88.3% | 92.0% | **+3.7%** |
-| Macro-F1 | 80.0% | 89.5% | **+9.5%** |
-| AUC | 94.9% | 97.1% | **+2.2%** |
-| Arrhythmia Recall | 91.3% | 95.6% | **+4.3%** |
-
-Use a visual "upgrade arrow" or progress bar between the two columns.
-
----
-
-### SECTION 6: Live Prediction Results
-
-A professional data table showing actual patient predictions from the production model. Use the following real data:
-
-```json
-[
-  {
-    "patient": "JS00001",
-    "prediction": "Arrhythmia",
-    "confidence": 98.61,
-    "risk": "HIGH",
-    "heart_rate": 114.0,
-    "hrv": 49.78,
-    "sdnn": 49.78,
-    "rmssd": 81.12,
-    "pnn50": 0.5294,
-    "age": 85,
-    "sex": "Male",
-    "total_seconds": 0.360
-  },
-  {
-    "patient": "JS00002",
-    "prediction": "Arrhythmia",
-    "confidence": 97.84,
-    "risk": "HIGH",
-    "heart_rate": 96.0,
-    "hrv": 295.51,
-    "sdnn": 295.51,
-    "rmssd": 552.84,
-    "pnn50": 1.0,
-    "age": 59,
-    "sex": "Female",
-    "total_seconds": 0.336
-  },
-  {
-    "patient": "JS00004",
-    "prediction": "Arrhythmia",
-    "confidence": 99.94,
-    "risk": "HIGH",
-    "heart_rate": 102.0,
-    "hrv": 243.91,
-    "sdnn": 243.91,
-    "rmssd": 487.49,
-    "pnn50": 1.0,
-    "age": 66,
-    "sex": "Male",
-    "total_seconds": 0.343
-  },
-  {
-    "patient": "JS00005",
-    "prediction": "Arrhythmia",
-    "confidence": 97.43,
-    "risk": "HIGH",
-    "heart_rate": 162.0,
-    "hrv": 5.36,
-    "sdnn": 5.36,
-    "rmssd": 5.92,
-    "pnn50": 0.0,
-    "age": 73,
-    "sex": "Female",
-    "total_seconds": 0.363
-  },
-  {
-    "patient": "JS00006",
-    "prediction": "Arrhythmia",
-    "confidence": 99.48,
-    "risk": "HIGH",
-    "heart_rate": 54.0,
-    "hrv": 23.53,
-    "sdnn": 23.53,
-    "rmssd": 39.11,
-    "pnn50": 0.2857,
-    "age": 46,
-    "sex": "Female",
-    "total_seconds": 0.321
-  },
-  {
-    "patient": "JS00007",
-    "prediction": "Arrhythmia",
-    "confidence": 99.02,
-    "risk": "HIGH",
-    "heart_rate": 102.0,
-    "hrv": 138.62,
-    "sdnn": 138.62,
-    "rmssd": 196.48,
-    "pnn50": 0.8667,
-    "age": 80,
-    "sex": "Female",
-    "total_seconds": 0.329
-  },
-  {
-    "patient": "JS00008",
-    "prediction": "Normal",
-    "confidence": 97.61,
-    "risk": "LOW",
-    "heart_rate": 66.0,
-    "hrv": 24.27,
-    "sdnn": 24.27,
-    "rmssd": 39.6,
-    "pnn50": 0.3333,
-    "age": 46,
-    "sex": "Male",
-    "total_seconds": 0.322
-  },
-  {
-    "patient": "JS00009",
-    "prediction": "Arrhythmia",
-    "confidence": 97.76,
-    "risk": "HIGH",
-    "heart_rate": 60.0,
-    "hrv": 47.55,
-    "sdnn": 47.55,
-    "rmssd": 69.84,
-    "pnn50": 0.5,
-    "age": 45,
-    "sex": "Male",
-    "total_seconds": 0.324
-  },
-  {
-    "patient": "JS00010",
-    "prediction": "Arrhythmia",
-    "confidence": 99.13,
-    "risk": "HIGH",
-    "heart_rate": 84.0,
-    "hrv": 295.46,
-    "sdnn": 295.46,
-    "rmssd": 465.24,
-    "pnn50": 0.9167,
-    "age": 47,
-    "sex": "Female",
-    "total_seconds": 0.325
-  },
-  {
-    "patient": "JS00011",
-    "prediction": "Arrhythmia",
-    "confidence": 99.34,
-    "risk": "HIGH",
-    "heart_rate": 108.0,
-    "hrv": 230.98,
-    "sdnn": 230.98,
-    "rmssd": 461.97,
-    "pnn50": 1.0,
-    "age": 63,
-    "sex": "Male",
-    "total_seconds": 0.342
-  }
-]
-```
-
-Table features:
-- Color-coded risk badges (RED for HIGH, GREEN for LOW, AMBER for MEDIUM)
-- Color-coded prediction labels (Red for Arrhythmia, Green for Normal, Blue for Other)
-- Sortable columns
-- Heart rate should show a small warning icon if < 60 or > 100 BPM
-- Show average inference time in a footer badge: "Avg inference: ~0.34s per patient"
-
----
-
-### SECTION 7: Risk Assessment Logic
-
-Show a visual decision tree or flowchart for risk assignment:
-
-```
-IF prediction == Arrhythmia:
-    IF confidence ≥ 85% → HIGH
-    ELSE → MEDIUM
-
-IF prediction == Other:
-    IF confidence ≥ 80% → MEDIUM
-    ELSE → LOW
-
-IF prediction == Normal:
-    → LOW
-
-THEN apply overrides:
-    IF confidence < 60% AND risk == LOW → MEDIUM
-    IF heart_rate > 120 OR heart_rate < 40 → escalate risk one level
-       (LOW → MEDIUM, MEDIUM → HIGH)
-```
-
----
-
-### SECTION 8: Technology Stack
-
-A clean grid of technology badges/cards:
-
-| Technology | Version | Purpose |
-|-----------|---------|---------|
-| Python | 3.12+ | Core pipeline |
-| PyTorch | 2.x | Deep learning framework |
-| EfficientNet-B4 | torchvision | Pretrained CNN backbone |
-| LightGBM | Latest | Gradient boosting classifier |
-| scikit-learn | Latest | PCA, StandardScaler, metrics |
-| SciPy | Latest | Bandpass filter, peak detection |
-| PyWavelets | Latest | Continuous Wavelet Transform |
-| NumPy / Pandas | Latest | Data manipulation |
-| Streamlit | Latest | Interactive dashboard |
-
----
-
-### SECTION 9: Dataset & Label Mapping
-
-Show the classification scheme:
-
-| Class | Label | SNOMED-CT Codes | Description |
-|-------|-------|-----------------|-------------|
-| 0 | Normal | 426783006 | Normal sinus rhythm |
-| 1 | Arrhythmia | 164889003, 164890007, 426177001 | Atrial fibrillation & variants |
-| 2 | Other | All other codes | Various cardiac conditions |
-
-Dataset composition (from 1000 records):
-- A donut/pie chart showing approximate class distribution:
-  - Arrhythmia: ~60% (majority class)
-  - Normal: ~17%
-  - Other/Unknown: ~23%
-
----
-
-### SECTION 10: Footer
-
-- Project title: "ECG Hybrid Classification System"
-- Built by: "Kshitiz Khandelwal"
-- Dataset: "PhysioNet/CinC Challenge 2020"
-- GitHub link placeholder
-- Year: 2026
+### 10. SECTION 9: References & Academic Standards
+- **PhysioNet/CinC Challenge 2020**: Ingestion framework standard.
+- **EfficientNet Backbone**: Tan & Le (ICML 2019).
+- **Continuous Wavelet Transform**: Addison (Physiol. Meas. 2005).
+- **LightGBM Classifier**: Ke et al. (NeurIPS 2017).
 
 ---
 
 ## ⚙️ TECHNICAL REQUIREMENTS
-
-1. Use **Next.js 14+ App Router** with TypeScript
-2. Use **shadcn/ui** components (Card, Table, Badge, Tabs, etc.)
-3. Use **Tailwind CSS** for styling
-4. Use **Recharts** for all charts (bar charts, confusion matrix heatmap, pie/donut chart)
-5. Use **Framer Motion** for scroll animations and number counter animations
-6. All data should be **hardcoded** (no API calls needed — this is a static report site)
-7. Fully **responsive** design
-8. Use **Lucide React** icons
-9. Use semantic HTML with proper heading hierarchy (single h1, then h2s for sections)
-10. Add proper `<title>` and `<meta description>` tags for SEO
-
----
-
-## 🚫 DO NOT
-
-- Do NOT use placeholder images or stock photos
-- Do NOT use bright/white backgrounds for the main theme
-- Do NOT create multiple pages — this should be a **single-page scrollable** application
-- Do NOT use any mock/random data — use ONLY the exact numbers provided above
-- Do NOT create a basic/minimal design — it MUST look premium, polished, and impressive
+1. Build as a **single-page dashboard** with interactive panels.
+2. Implement **glassmorphism** styling with translucent cards, dark borders, and smooth glowing gradients.
+3. Ensure **Responsive Layout** that accommodates mobile screens and displays clean, scrollable tables.
+4. Use Recharts for the Strategy Comparison Bar Chart and the Class Distribution Donut Chart.
+5. All text and data must reflect the **exact numbers and labels** listed above. No placeholders.
