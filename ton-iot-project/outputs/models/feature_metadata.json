@@ -1,0 +1,82 @@
+{
+  "feature_count": 33,
+  "feature_list": [
+    "src_port",
+    "dst_port",
+    "proto_enc",
+    "service_enc",
+    "log_duration",
+    "log_src_bytes",
+    "log_dst_bytes",
+    "conn_state_enc",
+    "log_missed_bytes",
+    "log_src_pkts",
+    "log_src_ip_bytes",
+    "log_dst_pkts",
+    "log_dst_ip_bytes",
+    "dns_qclass",
+    "dns_qtype",
+    "dns_rcode",
+    "dns_AA",
+    "dns_RD",
+    "dns_RA",
+    "dns_rejected",
+    "ssl_resumed",
+    "ssl_established",
+    "http_trans_depth",
+    "http_request_body_len",
+    "http_response_body_len",
+    "http_status_code",
+    "weird_name_enc",
+    "weird_notice",
+    "is_well_known_src_port",
+    "is_well_known_dst_port",
+    "byte_ratio",
+    "avg_src_pkt_size",
+    "avg_dst_pkt_size"
+  ],
+  "feature_hash": "8eaa204d2bff83e10a21cc633bdcb2210870e57d335cf72e95a90b7274164733",
+  "encoding_summary": {
+    "log1p_cols": [
+      "duration",
+      "src_bytes",
+      "dst_bytes",
+      "missed_bytes",
+      "src_pkts",
+      "src_ip_bytes",
+      "dst_pkts",
+      "dst_ip_bytes"
+    ],
+    "label_encode_cols": [
+      "proto",
+      "service",
+      "conn_state",
+      "weird_name"
+    ],
+    "bool_encode_cols": [
+      "dns_AA",
+      "dns_RD",
+      "dns_RA",
+      "dns_rejected",
+      "ssl_resumed",
+      "ssl_established",
+      "weird_notice"
+    ],
+    "dropped_cols": [
+      "src_ip",
+      "dst_ip",
+      "dns_query",
+      "ssl_subject",
+      "ssl_issuer",
+      "ssl_cipher",
+      "http_uri",
+      "http_user_agent",
+      "weird_addl",
+      "ssl_version",
+      "http_method",
+      "http_version",
+      "http_orig_mime_types",
+      "http_resp_mime_types"
+    ]
+  }
+}

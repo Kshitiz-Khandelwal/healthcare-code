@@ -1,0 +1,25 @@
+{
+  "timestamp_utc": "2026-06-19T02:39:31.301651",
+  "model_name": "RandomForestClassifier",
+  "task": "binary",
+  "seed": 42,
+  "dataset_size": 211043,
+  "feature_count": 33,
+  "feature_hash": "8eaa204d2bff83e10a21cc633bdcb2210870e57d335cf72e95a90b7274164733",
+  "test_accuracy": 0.9988864934018811,
+  "test_f1": 0.9992703109717285,
+  "test_auc": 0.9999519264801764,
+  "split_method": "stratified_train_test_split_80_20",
+  "test_precision": 0.9993789205639402,
+  "test_recall": 0.9991617249837003,
+  "confusion_matrix": [
+    [
+      9980,
+      20
+    ],
+    [
+      27,
+      32182
+    ]
+  ]
+}

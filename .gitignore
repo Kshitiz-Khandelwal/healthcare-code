@@ -40,3 +40,13 @@ session_results.csv
 .idea/
 .DS_Store
 Thumbs.db
+
+# Node dependencies & Next.js builds
+node_modules/
+**/node_modules/
+.next/
+**/.next/
+
+# Large feature matrices
+*feature_matrix*.csv
+
