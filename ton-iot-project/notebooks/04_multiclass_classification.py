@@ -284,6 +284,30 @@ metadata = {
 }
 save_metadata(metadata, config.MODELS_DIR + "multiclass_model_metadata.json")
 
+# Save multiclass classification report
+cr_report_path_json = config.REPORTS_DIR + "multiclass_classification_report.json"
+with open(cr_report_path_json, 'w') as f:
+    json.dump(cr, f, indent=2)
+print(f"Saved: {cr_report_path_json}")
+
+cr_lines = ["# Multiclass Classification Report\n\n"]
+cr_lines.append("| Class | Precision | Recall | F1-Score | Support |")
+cr_lines.append("|---|---|---|---|---|")
+for key, metrics in cr.items():
+    if isinstance(metrics, dict):
+        p = f"{metrics['precision']:.4f}"
+        r = f"{metrics['recall']:.4f}"
+        f1 = f"{metrics['f1-score']:.4f}"
+        s = f"{metrics['support']:,}"
+        cr_lines.append(f"| `{key}` | {p} | {r} | {f1} | {s} |")
+    else:
+        cr_lines.append(f"| **{key.capitalize()}** | | | {metrics:.4f} | |")
+
+cr_report_path_md = config.REPORTS_DIR + "multiclass_classification_report.md"
+with open(cr_report_path_md, 'w', encoding='utf-8') as f:
+    f.write("\n".join(cr_lines) + "\n")
+print(f"Saved: {cr_report_path_md}")
+
 # %% [markdown]
 # ## 7. Sample Predictions CSV
 

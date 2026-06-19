@@ -33,8 +33,8 @@ train_test_network.csv
 │  • Derive: byte_ratio, avg_pkt_size,    │
 │    is_well_known_port                   │
 │  • StandardScaler (fit on train only)   │
-│  • Save: feature_matrix_binary.csv      │
-│          feature_matrix_multiclass.csv  │
+│  • Save: feature_matrix_train.csv       │
+│          feature_matrix_test.csv        │
 │          feature_list.pkl               │
 │          scaler.pkl, label_encoders.pkl │
 └─────────────────────────────────────────┘
@@ -94,8 +94,8 @@ train_test_network.csv
 graph TD
     A["train_test_network.csv\n211,044 rows × 44 cols"] --> B["01_data_exploration.ipynb\nSchema audit, class distribution,\nmissing value analysis"]
     B --> C["02_feature_engineering.ipynb\nDrop, impute, encode, transform,\nderive, scale"]
-    C --> D["feature_matrix_binary.csv\n+ label"]
-    C --> E["feature_matrix_multiclass.csv\n+ type"]
+    C --> D["feature_matrix_train.csv\n+ label & type"]
+    C --> E["feature_matrix_test.csv\n+ label & type"]
     C --> F["feature_list.pkl\nscaler.pkl\nlabel_encoders.pkl"]
     D --> G["03_binary_classification.ipynb\nLogReg, RF, XGBoost, LightGBM\nPrimary metric: F1 attack class"]
     E --> H["04_multiclass_classification.ipynb\nLogReg, RF, XGBoost, LightGBM\nPrimary metric: Macro-F1"]

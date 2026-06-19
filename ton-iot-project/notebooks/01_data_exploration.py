@@ -97,6 +97,11 @@ print("\n[7] Attack type distribution (multi-class):")
 type_counts = df['type'].value_counts()
 print(type_counts)
 
+print("\n[7b] 5 sample rows per attack type:")
+for t in sorted(df['type'].unique()):
+    print(f"\n--- 5 Samples for Type: {t} ---")
+    print(df[df['type'] == t].head(5).to_string())
+
 # %% [markdown]
 # ## 5. Distribution Plots & Heatmaps
 
@@ -166,30 +171,47 @@ for col in obj_cols:
 # %%
 print("\n[11] Saving data audit report...")
 
+def df_to_markdown(sub_df):
+    cols = list(sub_df.columns)
+    header = "| " + " | ".join(cols) + " |"
+    divider = "| " + " | ".join(["---"] * len(cols)) + " |"
+    rows = []
+    for _, row in sub_df.iterrows():
+        # Replace newlines or pipes in values to prevent markdown breaking
+        cleaned_row = [str(val).replace("|", "\\|").replace("\n", " ") for val in row]
+        rows.append("| " + " | ".join(cleaned_row) + " |")
+    return "\n".join([header, divider] + rows)
+
 audit_lines = [
-    "# TON_IoT Data Audit Report\n",
-    f"## Dataset Shape\n- Rows: {len(df):,}\n- Columns: {len(df.columns)}\n",
-    "## Binary Label Distribution\n",
+    "# TON_IoT Data Audit Report\n\n",
+    f"## Dataset Shape\n- Rows: {len(df):,}\n- Columns: {len(df.columns)}\n\n",
+    "## Binary Label Distribution\n\n",
 ]
 for label_val, count in label_counts.items():
     audit_lines.append(f"- {label_val} ({'Benign' if label_val==0 else 'Attack'}): {count:,} ({count/len(df)*100:.2f}%)\n")
 
-audit_lines.append("\n## Attack Type Distribution\n")
+audit_lines.append("\n## Attack Type Distribution\n\n")
 for attack_type, count in type_counts.items():
     audit_lines.append(f"- {attack_type}: {count:,} ({count/len(df)*100:.2f}%)\n")
 
-audit_lines.append("\n## Missing Values (columns with any missing)\n")
+audit_lines.append("\n## Missing Values (columns with any missing)\n\n")
 if len(missing_df) > 0:
     audit_lines.append(missing_df.to_string() + "\n")
 else:
     audit_lines.append("No missing values detected.\n")
 
-audit_lines.append("\n## Categorical Column Cardinality\n")
+audit_lines.append("\n## Categorical Column Cardinality\n\n")
 for col in obj_cols:
     audit_lines.append(f"- `{col}`: {df[col].nunique()} unique values\n")
 
+audit_lines.append("\n## Sample Rows per Attack Type (5 samples each)\n\n")
+for t in sorted(df['type'].unique()):
+    audit_lines.append(f"### Attack Type: `{t}`\n\n")
+    sample_sub = df[df['type'] == t].head(5)
+    audit_lines.append(df_to_markdown(sample_sub) + "\n\n")
+
 audit_path = f"{config.REPORTS_DIR}data_audit.md"
-with open(audit_path, 'w') as f:
+with open(audit_path, 'w', encoding='utf-8') as f:
     f.writelines(audit_lines)
 print(f"    Saved: {audit_path}")
 

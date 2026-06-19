@@ -296,7 +296,10 @@ for m, r in binary_comparison.items():
     )
 
 report_lines += [
-    "\n---\n\n",
+    "\n### 6.3 Performance Curves\n\n",
+    "![ROC Curve](../plots/roc_curve_binary.png)\n",
+    "![Precision-Recall Curve](../plots/precision_recall_curve_binary.png)\n\n",
+    "---\n\n",
     "## 7. Multi-Class Classification Results\n\n",
     f"### 7.1 Best Model: {multi_meta['model_name']}\n\n",
     "| Metric | Value |\n",
@@ -313,7 +316,9 @@ if per_class_f1:
     for cls, f1 in sorted(per_class_f1.items()):
         assessment = "Excellent" if f1 >= 0.95 else "Good" if f1 >= 0.85 else "Fair" if f1 >= 0.70 else "Needs Improvement"
         report_lines.append(f"| {cls} | {f1:.4f} | {assessment} |\n")
-    report_lines.append("\n")
+    report_lines.append("\n### 7.3 Performance Visualizations\n\n")
+    report_lines.append("![Confusion Matrix Multiclass](../plots/confusion_matrix_multiclass.png)\n")
+    report_lines.append("![Per-Class F1 Score Multiclass](../plots/per_class_f1_multiclass.png)\n\n")
 
 report_lines += [
     "---\n\n",
@@ -328,11 +333,14 @@ report_lines += [
     f"| Binary | {binary_meta['model_name']} | Test AUC | {binary_meta['test_auc']:.4f} |\n",
     f"| Multi-Class | {multi_meta['model_name']} | Test Macro-F1 | {multi_meta['test_f1_macro']:.4f} |\n",
     f"| Multi-Class | {multi_meta['model_name']} | Test Accuracy | {multi_meta['test_accuracy']:.4f} |\n\n",
+    "### Model Comparison Visualization\n\n",
+    "![Model Comparison Binary](../plots/model_comparison_binary.png)\n\n",
     "---\n\n",
 
     "## 9. Feature Importance\n\n",
     "Feature importance analysis from the LightGBM multi-class model (see `outputs/plots/feature_importance_multiclass.png`) ",
     "reveals the most predictive network flow features for attack type classification.\n\n",
+    "![Feature Importance](../plots/feature_importance_multiclass.png)\n\n",
     "Key observations:\n",
     "- **`conn_state_enc`** (connection state) is typically the top feature — connection states like `S0` (SYN only), `REJ` (rejected), and `OTH` are highly diagnostic\n",
     "- **`log_duration`** distinguishes long-lived backdoor/C2 sessions from short scanning or DoS bursts\n",
@@ -386,8 +394,8 @@ report_lines += [
     "The TON_IoT Network Intrusion Detection pipeline successfully demonstrates a complete applied machine learning workflow ",
     "for IoT network security. Starting from raw 44-column network flow records, the pipeline engineers 33 meaningful features, ",
     "compares four classifiers on binary and multi-class tasks, and selects the best model for each:\n\n",
-    "- **Binary task**: {binary_meta['model_name']} achieves {binary_meta['test_f1']:.4f} F1 and {binary_meta['test_auc']:.4f} AUC\n",
-    "- **Multi-class task**: {multi_meta['model_name']} achieves {multi_meta['test_f1_macro']:.4f} Macro-F1 across all 10 attack types\n\n",
+    f"- **Binary task**: {binary_meta['model_name']} achieves {binary_meta['test_f1']:.4f} F1 and {binary_meta['test_auc']:.4f} AUC\n",
+    f"- **Multi-class task**: {multi_meta['model_name']} achieves {multi_meta['test_f1_macro']:.4f} Macro-F1 across all 10 attack types\n\n",
     "The system is best presented as a **research/academic prototype** for IoT intrusion detection. ",
     "It demonstrates strong classification performance on the TON_IoT benchmark but requires validation ",
     "on real-world production network data before operational deployment.\n\n",

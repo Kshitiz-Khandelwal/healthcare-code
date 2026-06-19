@@ -57,9 +57,9 @@ def predict_multiclass(features: pd.DataFrame, artifacts: dict) -> dict: ...
 ## Artifact Naming Convention
 
 All model artifacts are versioned with model name:
-- `best_binary_model.pkl` — final binary LightGBM
+- `best_binary_model.pkl` — final binary RandomForestClassifier
 - `binary_model_metadata.json` — binary model provenance + metrics + feature hash
-- `best_multiclass_model.pkl` — final multi-class LightGBM
+- `best_multiclass_model.pkl` — final multi-class RandomForestClassifier
 - `multiclass_model_metadata.json` — multi-class model provenance + metrics + feature hash
 - `feature_list.pkl` — exact ordered feature column list
 - `label_encoders.pkl` — dict of fitted LabelEncoder objects

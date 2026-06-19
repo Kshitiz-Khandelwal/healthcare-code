@@ -9,7 +9,7 @@
 > **Binary Test AUC**: 1.0000  
 > **Multi-Class Test Macro-F1**: 0.9658  
 > **Multi-Class Test Accuracy**: 0.9888  
-> **Training Timestamp**: 2026-06-19T02:37:17.342304  
+> **Training Timestamp**: 2026-06-19T04:47:12.463569  
 > **Random Seed**: 42  
 
 ---
@@ -183,6 +183,11 @@ Feature hash (integrity): `8eaa204d2bff83e10a21cc633bdcb2210870e57d335cf72e95a90
 | XGBClassifier | 0.9984 | 0.9990 | 1.0000 | 0.9984 | 0.9990 | 0.9999 |
 | LGBMClassifier | 0.9978 | 0.9986 | 1.0000 | 0.9974 | 0.9983 | 1.0000 |
 
+### 6.3 Performance Curves
+
+![ROC Curve](../plots/roc_curve_binary.png)
+![Precision-Recall Curve](../plots/precision_recall_curve_binary.png)
+
 ---
 
 ## 7. Multi-Class Classification Results
@@ -210,6 +215,11 @@ Feature hash (integrity): `8eaa204d2bff83e10a21cc633bdcb2210870e57d335cf72e95a90
 | scanning | 0.9885 | Excellent |
 | xss | 0.9787 | Excellent |
 
+### 7.3 Performance Visualizations
+
+![Confusion Matrix Multiclass](../plots/confusion_matrix_multiclass.png)
+![Per-Class F1 Score Multiclass](../plots/per_class_f1_multiclass.png)
+
 ---
 
 ## 8. Model Comparison
@@ -225,11 +235,17 @@ The best binary model is **RandomForestClassifier** with near-perfect Test F1=0.
 | Multi-Class | RandomForestClassifier | Test Macro-F1 | 0.9658 |
 | Multi-Class | RandomForestClassifier | Test Accuracy | 0.9888 |
 
+### Model Comparison Visualization
+
+![Model Comparison Binary](../plots/model_comparison_binary.png)
+
 ---
 
 ## 9. Feature Importance
 
 Feature importance analysis from the LightGBM multi-class model (see `outputs/plots/feature_importance_multiclass.png`) reveals the most predictive network flow features for attack type classification.
+
+![Feature Importance](../plots/feature_importance_multiclass.png)
 
 Key observations:
 - **`conn_state_enc`** (connection state) is typically the top feature — connection states like `S0` (SYN only), `REJ` (rejected), and `OTH` are highly diagnostic
@@ -293,8 +309,8 @@ Feature hash: `8eaa204d2bff83e10a21cc633bdcb2210870e57d335cf72e95a90b7274164733`
 
 The TON_IoT Network Intrusion Detection pipeline successfully demonstrates a complete applied machine learning workflow for IoT network security. Starting from raw 44-column network flow records, the pipeline engineers 33 meaningful features, compares four classifiers on binary and multi-class tasks, and selects the best model for each:
 
-- **Binary task**: {binary_meta['model_name']} achieves {binary_meta['test_f1']:.4f} F1 and {binary_meta['test_auc']:.4f} AUC
-- **Multi-class task**: {multi_meta['model_name']} achieves {multi_meta['test_f1_macro']:.4f} Macro-F1 across all 10 attack types
+- **Binary task**: RandomForestClassifier achieves 0.9993 F1 and 1.0000 AUC
+- **Multi-class task**: RandomForestClassifier achieves 0.9658 Macro-F1 across all 10 attack types
 
 The system is best presented as a **research/academic prototype** for IoT intrusion detection. It demonstrates strong classification performance on the TON_IoT benchmark but requires validation on real-world production network data before operational deployment.
 

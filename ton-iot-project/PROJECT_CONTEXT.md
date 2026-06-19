@@ -98,9 +98,9 @@ Ports below 1024 are privileged system ports. Malicious traffic frequently targe
 
 | Metric | Target | Achieved |
 |---|---:|---|
-| Binary Test F1 (attack) | > 0.95 | TBD |
-| Binary Test AUC | > 0.98 | TBD |
-| Multi-Class Test Macro-F1 | > 0.85 | TBD |
-| Multi-Class Test Accuracy | > 0.90 | TBD |
-| All notebooks run without error | Yes | TBD |
-| All artifacts saved | Yes | TBD |
+| Binary Test F1 (attack) | > 0.95 | `0.9993` |
+| Binary Test AUC | > 0.98 | `1.0000` |
+| Multi-Class Test Macro-F1 | > 0.85 | `0.9658` |
+| Multi-Class Test Accuracy | > 0.90 | `0.9888` |
+| All notebooks run without error | Yes | `Yes` |
+| All artifacts saved | Yes | `Yes` |

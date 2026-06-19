@@ -109,8 +109,8 @@ You are a senior pair-programming AI coding assistant. We are developing an end-
 - Apply separately for binary (stratify on `label`) and multi-class (stratify on `type`).
 
 **Artifacts to save**:
-- `outputs/feature_matrix_binary.csv` — feature matrix + `label` column.
-- `outputs/feature_matrix_multiclass.csv` — feature matrix + `type` column.
+- `outputs/feature_matrix_train.csv` — training feature matrix + target columns.
+- `outputs/feature_matrix_test.csv` — testing feature matrix + target columns.
 - `outputs/models/feature_list.pkl` — exact list of feature column names in order.
 - `outputs/models/label_encoders.pkl` — dict of fitted LabelEncoder objects.
 - `outputs/models/scaler.pkl` — fitted StandardScaler.
@@ -132,7 +132,7 @@ You are a senior pair-programming AI coding assistant. We are developing an end-
 
 **Task**: Classify each flow as benign (`label=0`) or attack (`label=1`).
 
-**Load** feature matrix from `outputs/feature_matrix_binary.csv`. Load feature list from `outputs/models/feature_list.pkl`. Assert feature columns match.
+**Load** feature matrix from `outputs/feature_matrix_train.csv` (and test matrix from `outputs/feature_matrix_test.csv`). Load feature list from `outputs/models/feature_list.pkl`. Assert feature columns match.
 
 **Models to train** (in this order):
 1. `LogisticRegression(random_state=42, max_iter=1000, class_weight='balanced', n_jobs=1)`
@@ -169,7 +169,7 @@ You are a senior pair-programming AI coding assistant. We are developing an end-
 
 **Task**: Classify each flow into its attack type (`type` column).
 
-**Load** feature matrix from `outputs/feature_matrix_multiclass.csv`. Load feature list. Assert columns match.
+**Load** feature matrix from `outputs/feature_matrix_train.csv` (and test matrix from `outputs/feature_matrix_test.csv`). Load feature list. Assert columns match.
 
 **Models**: Same 4 as Phase 3, but with multi-class support.
 - For XGBoost: use `objective='multi:softmax'`, `num_class=<n_classes>`.

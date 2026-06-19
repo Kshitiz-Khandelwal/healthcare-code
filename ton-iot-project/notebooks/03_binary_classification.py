@@ -207,6 +207,26 @@ print(f"  Test F1: {best_result['test_f1']:.4f}")
 print(f"  Test AUC: {best_result['test_auc']:.4f}")
 print(f"  Test Accuracy: {best_result['test_accuracy']:.4f}")
 
+# %%
+print("\n[BEST MODEL PR CURVE] Plotting Precision-Recall curve...")
+from sklearn.metrics import precision_recall_curve, average_precision_score
+best_proba = best_result["model_obj"].predict_proba(X_test)[:, 1]
+precision, recall, _ = precision_recall_curve(y_test, best_proba)
+ap = average_precision_score(y_test, best_proba)
+
+fig_pr, ax_pr = plt.subplots(figsize=(6, 5))
+ax_pr.plot(recall, precision, label=f"{best_name} (AP={ap:.4f})", color='#2ecc71', linewidth=2)
+ax_pr.set_xlabel('Recall')
+ax_pr.set_ylabel('Precision')
+ax_pr.set_title(f'Precision-Recall Curve — {best_name} (Binary)', fontweight='bold')
+ax_pr.legend(loc='lower left')
+ax_pr.grid(True, linestyle='--', alpha=0.5)
+plt.tight_layout()
+pr_curve_path = f"{config.PLOTS_DIR}precision_recall_curve_binary.png"
+plt.savefig(pr_curve_path, dpi=150)
+plt.close()
+print(f"    Saved: {pr_curve_path}")
+
 # %% [markdown]
 # ## 5. Save Best Model and Metadata
 
